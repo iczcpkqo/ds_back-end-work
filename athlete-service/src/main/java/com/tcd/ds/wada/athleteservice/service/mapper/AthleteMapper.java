@@ -6,6 +6,7 @@ import com.tcd.ds.wada.athleteservice.model.AthleteRequest;
 public class AthleteMapper {
     public Athlete fromAthleteRequestToEntity(AthleteRequest athleteRequest) {
         Athlete athlete = new Athlete();
+        athlete.setEmailId(athleteRequest.getEmailId());
         return athlete;
     }
 }

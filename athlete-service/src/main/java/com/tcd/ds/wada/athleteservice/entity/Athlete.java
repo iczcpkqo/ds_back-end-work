@@ -1,12 +1,9 @@
 package com.tcd.ds.wada.athleteservice.entity;
 
 import lombok.Data;
-import org.springframework.data.annotation.Id;
+import javax.persistence.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -14,8 +11,11 @@ import javax.persistence.Table;
 public class Athlete {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.AUTO)
     @Column(name = "ID")
-    private String athleteId;
+    private Integer athleteId;
+
+    @Column(name = "EMAIL")
+    private String emailId;
 
 }
