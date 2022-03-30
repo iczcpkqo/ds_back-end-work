@@ -1,0 +1,20 @@
+version: '2.1'
+
+services:
+  athlete-service:
+    build: athlete-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8005:8080"
+    depends_on:
+      - mysql_db1
+
+  mysql_db1:
+    image: mysql:latest
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=db0
