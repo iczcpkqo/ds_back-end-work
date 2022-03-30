@@ -9,31 +9,38 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@Service
 public class AthleteService {
-    private static final Logger logger = LoggerFactory.getLogger(AppointmentService.class);
+    private static final Logger logger = LoggerFactory.getLogger(AthleteService.class);
 
     @Autowired
     AthleteRepository repository;
 
-    public ResponseEntity<String> add(AthleteRequest request) {
+    public ResponseEntity<Integer> add(AthleteRequest request) {
         logger.info("Adding Athlete ... ");
 
         Athlete athlete = new AthleteMapper().fromAthleteRequestToEntity(request);
         athlete = repository.save(athlete);
+        logger.info("Added with Id (" + athlete.getAthleteId() + ")");
 
         return new ResponseEntity<>(athlete.getAthleteId(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Athlete> get(String athleteId) {
-        logger.info("Getting Athlete ... ");
+    public ResponseEntity<Athlete> get(Integer athleteId) {
+        logger.info("Getting Athlete Id (" + athleteId + ") ...");
 
         Optional<Athlete> athlete = repository.findById(athleteId);
 
-        return athlete
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (athlete.isPresent()) {
+            logger.info("Found");
+            return ResponseEntity.ok(athlete.get());
+        } else {
+            logger.info("Not found");
+            return ResponseEntity.notFound().build();
+        }
     }
 }

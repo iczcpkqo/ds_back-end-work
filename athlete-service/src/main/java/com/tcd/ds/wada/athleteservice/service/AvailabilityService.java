@@ -9,10 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class AvailabilityService {
     private static final Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 
@@ -20,29 +22,34 @@ public class AvailabilityService {
     AvailabilityRepository repository;
 
     // Get existing future records of availability for athlete
-    public ResponseEntity<List<Availability>> get(String athleteId) {
-        logger.info("Getting Availability for athlete ... ");
+    public ResponseEntity<List<Availability>> get(Integer athleteId) {
+        logger.info("Getting Availability for Athlete Id (" + athleteId + ") ...");
 
         Optional<List<Availability>> athleteAvailabilityList = repository.findByAthleteId(athleteId);
 
-        return athleteAvailabilityList
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        if (athleteAvailabilityList.isPresent()) {
+            logger.info("Found");
+            return ResponseEntity.ok(athleteAvailabilityList.get());
+        } else {
+            logger.info("Not Found");
+            return ResponseEntity.notFound().build();
+        }
     }
 
     // Add new record of availability for athlete
-    public ResponseEntity<String> add(AvailabilityRequest request) {
+    public ResponseEntity<Integer> add(AvailabilityRequest request) {
         logger.info("Adding Availability for athlete ... ");
 
         // check if availability data already requests at the timestamp
         Availability availability = new AvailabilityMapper().fromAvailabilityRequestToEntity(request);
         availability = repository.save(availability);
+        logger.info("Added with Id (" + availability.getAvailabilityId() + ")");
 
         return new ResponseEntity<>(availability.getAvailabilityId(), HttpStatus.OK);
     }
 
     // Update existing future record of availability for athlete
-    public ResponseEntity<?> update(String availabilityId, AvailabilityRequest request) {
+    public ResponseEntity<?> update(Integer availabilityId, AvailabilityRequest request) {
         logger.info("Updating Availability for athlete ... ");
 
         Optional<Availability> availability = repository.findById(availabilityId);
@@ -54,17 +61,13 @@ public class AvailabilityService {
     }
 
     // Delete existing future records of availability for athlete (if appointment is not set)
-    public ResponseEntity<?> delete(String availabilityId) {
+    public ResponseEntity<?> delete(Integer availabilityId) {
         logger.info("Delete Availability for athlete ... ");
 
         Optional<Availability> availability = repository.findById(availabilityId);
         if (availability.isPresent()) {
-            if (availability.get().getIsAppointment()) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).build();
-            } else {
-                repository.deleteById(availabilityId);
-                return ResponseEntity.ok().build();
-            }
+            repository.deleteById(availabilityId);
+            return ResponseEntity.ok().build();
         } else
             return ResponseEntity.notFound().build();
     }
