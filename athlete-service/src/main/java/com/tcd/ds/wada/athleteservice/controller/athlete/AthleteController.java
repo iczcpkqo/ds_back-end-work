@@ -12,8 +12,8 @@ public interface AthleteController {
     String ATHLETE_BASE_URL = "/athlete";
 
     @PostMapping(path = ATHLETE_BASE_URL)
-    ResponseEntity<String> add(@RequestBody AthleteRequest request);
+    ResponseEntity<Integer> add(@RequestBody AthleteRequest request);
 
     @GetMapping(path = ATHLETE_BASE_URL + "/{athleteId}")
-    ResponseEntity<Athlete> get(@PathVariable(value = "athleteId") final String athleteId);
+    ResponseEntity<Athlete> get(@PathVariable(value = "athleteId") final Integer athleteId);
 }

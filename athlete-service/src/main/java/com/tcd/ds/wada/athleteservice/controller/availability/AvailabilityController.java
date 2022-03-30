@@ -12,15 +12,15 @@ public interface AvailabilityController {
     String AVAILABILITY_BASE_URL = "/athlete/availability";
 
     @GetMapping(path = AVAILABILITY_BASE_URL + "/{athleteId}")
-    ResponseEntity<List<Availability>> get(@PathVariable(value = "athleteId") final String athleteId);
+    ResponseEntity<List<Availability>> get(@PathVariable(value = "athleteId") final Integer athleteId);
 
     @PostMapping(path = AVAILABILITY_BASE_URL)
-    ResponseEntity<String> add(@RequestBody AvailabilityRequest request);
+    ResponseEntity<Integer> add(@RequestBody AvailabilityRequest request);
 
     @PatchMapping(path = AVAILABILITY_BASE_URL + "/{availabilityId}")
-    ResponseEntity<?> update(@PathVariable(value = "availabilityId") final String availabilityId, @RequestBody AvailabilityRequest request);
+    ResponseEntity<?> update(@PathVariable(value = "availabilityId") final Integer availabilityId, @RequestBody AvailabilityRequest request);
 
     @DeleteMapping(path = AVAILABILITY_BASE_URL + "/{availabilityId}")
-    ResponseEntity<?> delete(@PathVariable(value = "availabilityId") final String availabilityId);
+    ResponseEntity<?> delete(@PathVariable(value = "availabilityId") final Integer availabilityId);
 
 }

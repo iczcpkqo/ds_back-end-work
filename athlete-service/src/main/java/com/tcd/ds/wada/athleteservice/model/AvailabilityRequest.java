@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class AvailabilityRequest {
-    private String athleteId;
+    private Integer athleteId;
     private Long timeStamp;
     private String location;
 }

@@ -19,12 +19,12 @@ public class AthleteControllerImpl implements AthleteController {
     AthleteService service;
 
     @Override
-    public ResponseEntity<String> add(AthleteRequest request) {
+    public ResponseEntity<Integer> add(AthleteRequest request) {
         return service.add(request);
     }
 
     @Override
-    public ResponseEntity<Athlete> get(String athleteId) {
+    public ResponseEntity<Athlete> get(Integer athleteId) {
         return service.get(athleteId);
     }
 }
