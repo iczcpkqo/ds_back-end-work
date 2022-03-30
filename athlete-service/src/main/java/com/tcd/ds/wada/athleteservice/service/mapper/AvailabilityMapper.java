@@ -9,7 +9,6 @@ public class AvailabilityMapper {
         availability.setAthleteId(availabilityRequest.getAthleteId());
         availability.setLocation(availabilityRequest.getLocation());
         availability.setTimeStamp(availability.getTimeStamp());
-        availability.setIsAppointment(false);
         return availability;
     }
 }
