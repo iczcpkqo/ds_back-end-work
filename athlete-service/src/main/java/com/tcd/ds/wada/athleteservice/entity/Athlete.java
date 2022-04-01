@@ -15,6 +15,12 @@ public class Athlete {
     @Column(name = "ID")
     private Integer athleteId;
 
+    @Column(name = "NAME")
+    private String athleteName;
+
+    @Column(name = "COUNTRY_OF_ORIGIN")
+    private String countryOfOrigin;
+
     @Column(name = "EMAIL")
     private String emailId;
 
