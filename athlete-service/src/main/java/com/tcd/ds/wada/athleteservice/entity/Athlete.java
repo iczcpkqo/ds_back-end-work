@@ -18,8 +18,10 @@ public class Athlete {
     @Column(name = "NAME")
     private String athleteName;
 
-    @Column(name = "COUNTRY_OF_ORIGIN")
-    private String countryOfOrigin;
+    @ManyToOne
+    @JoinColumn(name="LOCATION_ID")
+    private Location location;
+
 
     @Column(name = "EMAIL")
     private String emailId;

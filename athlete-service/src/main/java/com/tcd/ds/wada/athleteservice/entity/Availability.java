@@ -2,11 +2,7 @@ package com.tcd.ds.wada.athleteservice.entity;
 
 import lombok.Data;
 
-import javax.persistence.Id;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Data
 @Entity
@@ -21,9 +17,10 @@ public class Availability {
     @Column(name = "ATHLETE_ID")
     private Integer athleteId;
 
-    @Column(name = "TIMESTAMP")
+    @Column(name = "START_TIMESTAMP")
     private Long startTimeStamp;
 
-    @Column(name = "LOCATION")
-    private String location;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "LOCATION_ID", referencedColumnName = "ID")
+    private Location location;
 }
