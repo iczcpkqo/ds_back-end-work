@@ -8,7 +8,9 @@ public class AvailabilityMapper {
         Availability availability = new Availability();
         availability.setAthleteId(availabilityRequest.getAthleteId());
         availability.setLocation(availabilityRequest.getLocation());
-        availability.setTimeStamp(availability.getTimeStamp());
+        availability.setStartTimeStamp(availability.getStartTimeStamp());
         return availability;
     }
+
+
 }

@@ -22,7 +22,7 @@ public class Availability {
     private Integer athleteId;
 
     @Column(name = "TIMESTAMP")
-    private Long timeStamp;
+    private Long startTimeStamp;
 
     @Column(name = "LOCATION")
     private String location;
