@@ -20,23 +20,30 @@ public class UserRegistrationService {
     private UserRepository repository;
 
     public ResponseEntity<Object> register(UserRegistrationRequest request) {
-        if(request == null ||
-                !request.getEmail().matches("^[a-zA-Z0-9_.+-]+@dublincity\\.ie$")){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid request");
+        logger.info("Registration: Processing");
+
+        if(request == null || !request.getEmail().matches("^[a-zA-Z0-9_.+-]+@wada\\.com$")) {
+            logger.warn("Registration: Email Mismatch");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Registration: Invalid request");
         }
+
         UserMapper mapper = new UserMapper();
         User user = mapper.fromRegistrationRequestToEntity(request);
+
         Optional<User> existingUser = repository.findById(request.getEmail());
         if(existingUser.isPresent()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("A user with that email already exists.");
+            logger.warn("Registration: Email already exists");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Registration: A user with that email already exists.");
         }
+
         try {
             repository.save(user);
+            logger.info("Registration: Complete");
         }
         catch(Exception e){
-          logger.error("Error in UserRegistrationService register method", e);
+            logger.error("Registration: Error", e);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
-        return new ResponseEntity<Object>(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 }

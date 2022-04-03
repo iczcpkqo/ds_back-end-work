@@ -2,8 +2,8 @@ package com.tcd.ds.wada.userservice.service;
 
 import com.tcd.ds.wada.userservice.entity.User;
 import com.tcd.ds.wada.userservice.model.UserLoginRequest;
-import com.tcd.ds.wada.userservice.model.UserLoginResponse;
 import com.tcd.ds.wada.userservice.repository.UserRepository;
+import com.tcd.ds.wada.userservice.utils.JWTokenHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,26 +22,22 @@ public class UserLoginService {
     @Autowired
     private UserRepository repository;
 
-    public ResponseEntity<Object> login(UserLoginRequest request) {
-    	logger.info("Processing login request");
-        //JWTokenHelper helper = new JWTokenHelper();
-        //final String token;
+    public ResponseEntity<String> login(UserLoginRequest request) {
+    	logger.info("Login: Processing");
+
         Optional<User> user = repository.findById(request.getEmail());
-        if(!user.isPresent()) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("User does not exist");
-        }
-        else {
-            User ruser = user.get();
-            if(!request.getPassword().equals(ruser.getPassword())) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Incorrect password");
-            }
-//            token = helper.generateToken(ruser.getUserName());
-//            if(token == null || token.isEmpty()) {
-//            	return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("System cannot process request at this time");
-//            }
-            UserLoginResponse response = new UserLoginResponse();
-            response.setToken(null);
-            return new ResponseEntity<Object>(response, HttpStatus.OK);
-        }
+        if (user.isPresent()) {
+            User currentUser = user.get();
+            if (request.getPassword().equals(currentUser.getPassword())) {
+                JWTokenHelper helper = new JWTokenHelper();
+                final String token = helper.generateToken(currentUser.getUserName());
+                if (token == null || token.isEmpty())
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                logger.info("Login: Token Generated");
+                return ResponseEntity.ok(token);
+            } else
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        } else
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }
