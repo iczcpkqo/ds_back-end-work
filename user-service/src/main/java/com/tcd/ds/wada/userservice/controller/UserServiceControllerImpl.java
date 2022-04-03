@@ -20,14 +20,12 @@ public class UserServiceControllerImpl implements UserServiceController {
 	UserRegistrationService userRegistrationService;
 
 	@Override
-	public ResponseEntity<Object> login(UserLoginRequest request) {
-
+	public ResponseEntity<String> login(UserLoginRequest request) {
 		return userLoginService.login(request);
 	}
 
 	@Override
 	public ResponseEntity<Object> register(UserRegistrationRequest request) {
-
 		return userRegistrationService.register(request);
 	}
 
