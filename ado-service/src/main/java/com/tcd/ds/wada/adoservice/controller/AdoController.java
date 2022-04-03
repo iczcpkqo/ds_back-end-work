@@ -18,7 +18,7 @@ public interface AdoController {
 
     @ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/getAthletes")
-    public List<Athlete> getListOfAthletes(
+    public ResponseEntity<List<Athlete>> getListOfAthletes(
             @RequestBody GetAthleteListRequest getAthleteListRequest);
 
     @ResponseBody

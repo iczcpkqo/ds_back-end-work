@@ -6,15 +6,12 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
-
 @Data
-@Document("Ado")
-public class Ado {
+@Document("Appointments")
+public class Appointments {
 
     @Id
-    private Long adoId;
-    private String adoName;
+    private Integer appointmentId;
+    private Athlete athlete;
     private Location location;
-    private List<Athlete> athletes;
 }
