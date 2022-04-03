@@ -1,23 +1,13 @@
 package com.tcd.ds.wada.athleteservice.entity;
 
 import lombok.Data;
-
-import javax.persistence.*;
-import java.util.List;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
-@Table(name="Location")
+@Document("Location")
 public class Location {
-
     @Id
-    @GeneratedValue
-    @Column(name = "ID")
-    private Integer locationId;
-
-    @Column(name = "COUNTRY")
     private String country;
-
-    @OneToMany(mappedBy = "location")
-    private List<Athlete> athletes;
+    private String region;
 }
