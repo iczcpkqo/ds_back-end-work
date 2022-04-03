@@ -1,0 +1,7 @@
+.idea/jpa-buddy.xml
+.idea/libraries/Maven__org_mongodb_bson_4_4_2.xml
+.idea/libraries/Maven__org_mongodb_mongodb_driver_core_4_4_2.xml
+.idea/libraries/Maven__org_mongodb_mongodb_driver_sync_4_4_2.xml
+.idea/libraries/Maven__org_projectlombok_lombok_1_18_20.xml
+.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_mongodb_2_6_5.xml
+.idea/libraries/Maven__org_springframework_data_spring_data_mongodb_3_3_3.xml
