@@ -20,7 +20,7 @@ public class AthleteService {
     @Autowired
     AthleteRepository repository;
 
-    public ResponseEntity<Integer> add(AthleteRequest request) {
+    public ResponseEntity<String> add(AthleteRequest request) {
         logger.info("Adding Athlete ... ");
 
         Athlete athlete = new AthleteMapper().fromAthleteRequestToEntity(request);
@@ -30,17 +30,27 @@ public class AthleteService {
         return new ResponseEntity<>(athlete.getAthleteId(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Athlete> get(Integer athleteId) {
-        logger.info("Getting Athlete Id (" + athleteId + ") ...");
+    public ResponseEntity<Athlete> get(String athleteId) {
+        logger.info("Athlete: Getting Athlete");
+        Athlete athlete = getAthleteFromDb(athleteId);
+        if (athlete != null) {
+            return ResponseEntity.ok(athlete);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public Athlete getAthleteFromDb(String athleteId) {
+        logger.info("Athlete: Getting Athlete Id (" + athleteId + ") from DB");
 
         Optional<Athlete> athlete = repository.findById(athleteId);
 
         if (athlete.isPresent()) {
-            logger.info("Found");
-            return ResponseEntity.ok(athlete.get());
+            logger.info("Athlete: Found");
+            return athlete.get();
         } else {
-            logger.info("Not found");
-            return ResponseEntity.notFound().build();
+            logger.info("Athlete: Not found");
+            return null;
         }
     }
 }

@@ -1,29 +1,26 @@
 package com.tcd.ds.wada.athleteservice.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import javax.persistence.Id;
-
-import javax.persistence.*;
+import lombok.NoArgsConstructor;
+import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.CompoundIndexes;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.annotation.Id;
+import java.util.List;
 
 @Data
-@Entity
-@Table(name="Athlete")
+@Document("Athlete")
+@AllArgsConstructor
+@NoArgsConstructor
+@CompoundIndexes({
+        @CompoundIndex(name = "region_id", def = "{'region' : 1, 'athleteid': 1}")
+})
 public class Athlete {
-
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "ID")
-    private Integer athleteId;
-
-    @Column(name = "NAME")
+    private String athleteId;
     private String athleteName;
-
-    @ManyToOne
-    @JoinColumn(name="LOCATION_ID")
-    private Location location;
-
-
-    @Column(name = "EMAIL")
+    private Location homeLocation;
     private String emailId;
-
+    private List<Availability> availabilities;
 }

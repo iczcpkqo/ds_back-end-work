@@ -1,8 +1,11 @@
 package com.tcd.ds.wada.athleteservice.model;
 
+import com.tcd.ds.wada.athleteservice.entity.Location;
 import lombok.Data;
 
 @Data
 public class AthleteRequest {
-    String emailId;
+    private String athleteName;
+    private Location homeLocation;
+    private String emailId;
 }
