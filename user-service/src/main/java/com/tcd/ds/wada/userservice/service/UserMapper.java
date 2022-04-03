@@ -9,6 +9,7 @@ public class UserMapper {
     	user.setPassword(request.getPassword());
     	user.setUserEmail(request.getEmail());
     	user.setUserName(request.getUsername());
+		user.setIsAthlete(request.getIsAthlete());
     	return user;
     }
 }
