@@ -15,6 +15,6 @@ public interface UserServiceController {
 	public ResponseEntity<Object> register(@RequestBody UserRegistrationRequest request);
 
 	@PostMapping(path = BASE_URL + "/login")
-	public @ResponseBody ResponseEntity<Object> login(@RequestBody UserLoginRequest request);
+	public @ResponseBody ResponseEntity<String> login(@RequestBody UserLoginRequest request);
 
 }
