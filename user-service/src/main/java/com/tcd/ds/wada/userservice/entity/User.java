@@ -2,23 +2,13 @@ package com.tcd.ds.wada.userservice.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Table;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Entity
-@Table(name="Users")
+@Document("User")
 public class User {
-	@Column(name = "USERNAME")
-	private String userName;
-
 	@Id
-	@Column(name = "EMAIL")
 	private String userEmail;
-
-	@Column(name = "PASSWORD")
+	private String userName;
 	private String password;
 }
