@@ -9,9 +9,8 @@ import java.util.List;
 @Data
 @Document("Ado")
 public class Ado {
-
     @Id
-    private Long adoId;
+    private String adoId;
     private String adoName;
     private String adoEmail;
     private Location location;
