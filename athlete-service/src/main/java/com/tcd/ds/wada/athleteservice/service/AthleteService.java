@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -38,6 +39,18 @@ public class AthleteService {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    public ResponseEntity<List<Athlete>> get() {
+        logger.info("Athlete: Getting All Athletes");
+        List<Athlete> athletes = repository.findAll();
+        return ResponseEntity.ok(athletes);
+    }
+
+    public ResponseEntity<String> delete(String athleteId) {
+        logger.info("Athlete: Deleting athlete");
+        repository.deleteById(athleteId);
+        return ResponseEntity.ok().body("");
     }
 
     public Athlete getAthleteFromDb(String athleteId) {

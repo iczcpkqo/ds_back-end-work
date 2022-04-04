@@ -5,6 +5,7 @@ import com.tcd.ds.wada.athleteservice.model.AthleteRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface AthleteController {
@@ -16,4 +17,10 @@ public interface AthleteController {
 
     @GetMapping(path = ATHLETE_BASE_URL + "/{athleteId}")
     ResponseEntity<Athlete> get(@PathVariable(value = "athleteId") final String athleteId);
+
+    @GetMapping(path = ATHLETE_BASE_URL)
+    ResponseEntity<List<Athlete>> get();
+
+    @DeleteMapping(path = ATHLETE_BASE_URL + "/{athleteId}")
+    ResponseEntity<String> delete(@PathVariable(value = "athleteId") final String athleteId);
 }

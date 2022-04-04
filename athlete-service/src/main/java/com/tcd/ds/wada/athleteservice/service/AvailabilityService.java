@@ -4,6 +4,7 @@ import com.tcd.ds.wada.athleteservice.entity.Athlete;
 import com.tcd.ds.wada.athleteservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
 import com.tcd.ds.wada.athleteservice.repository.AthleteRepository;
+import com.tcd.ds.wada.athleteservice.repository.AvailabilityRepository;
 import com.tcd.ds.wada.athleteservice.service.mapper.AvailabilityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,17 +15,19 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AvailabilityService {
     private static final Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 
     @Autowired
-    AthleteRepository repository;
+    AthleteRepository athleteRepository;
 
     @Autowired
     AthleteService athleteService;
+
+    @Autowired
+    AvailabilityRepository availabilityRepository;
 
 //    // Get existing future records of availability for athlete
 //    public ResponseEntity<List<Availability>> get(String athleteId) {
@@ -53,8 +56,13 @@ public class AvailabilityService {
             if (!checkAvailabilityAdd(athlete.getAvailabilities(), newAvailability))
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability already exists for athlete");
 
+            newAvailability = availabilityRepository.save(newAvailability);
             athlete.getAvailabilities().add(newAvailability);
-            repository.save(athlete);
+            athleteRepository.save(athlete);
+
+            newAvailability.setAthleteId(athleteId);
+            availabilityRepository.save(newAvailability);
+
             logger.info("Availability: Added");
             return ResponseEntity.ok().body("Added");
         } else {
@@ -85,7 +93,7 @@ public class AvailabilityService {
             newAvailabilityList.add(updateAvailability);
             athlete.setAvailabilities(newAvailabilityList);
 
-            repository.save(athlete);
+            athleteRepository.save(athlete);
             logger.info("Availability: Updated");
 
             return ResponseEntity.ok().body("Updated");
@@ -111,7 +119,7 @@ public class AvailabilityService {
 
             athlete.setAvailabilities(newAvailabilityList);
 
-            repository.save(athlete);
+            athleteRepository.save(athlete);
             logger.info("Availability: Deleted");
 
             return ResponseEntity.ok().body("Deleted");
