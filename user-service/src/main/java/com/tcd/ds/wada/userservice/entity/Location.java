@@ -5,11 +5,9 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document("User")
-public class User {
-	@Id
-	private String userEmail;
-	private String name;
-	private String password;
-	private Boolean isAthlete;
+@Document("Location")
+public class Location {
+    @Id
+    private String country;
+    private String region;
 }

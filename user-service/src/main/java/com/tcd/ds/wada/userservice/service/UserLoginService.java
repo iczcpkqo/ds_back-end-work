@@ -1,6 +1,7 @@
 package com.tcd.ds.wada.userservice.service;
 
 import com.tcd.ds.wada.userservice.entity.User;
+import com.tcd.ds.wada.userservice.model.LoginResponse;
 import com.tcd.ds.wada.userservice.model.UserLoginRequest;
 import com.tcd.ds.wada.userservice.repository.UserRepository;
 import com.tcd.ds.wada.userservice.utils.JWTokenHelper;
@@ -22,7 +23,7 @@ public class UserLoginService {
     @Autowired
     private UserRepository repository;
 
-    public ResponseEntity<String> login(UserLoginRequest request) {
+    public ResponseEntity<LoginResponse> login(UserLoginRequest request) {
     	logger.info("Login: Processing");
 
         Optional<User> user = repository.findById(request.getEmail());
@@ -30,11 +31,14 @@ public class UserLoginService {
             User currentUser = user.get();
             if (request.getPassword().equals(currentUser.getPassword())) {
                 JWTokenHelper helper = new JWTokenHelper();
-                final String token = helper.generateToken(currentUser.getUserName());
+                final String token = helper.generateToken(currentUser.getName());
                 if (token == null || token.isEmpty())
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 logger.info("Login: Token Generated");
-                return ResponseEntity.ok(token);
+                LoginResponse loginResponse = new LoginResponse();
+                loginResponse.setToken(token);
+                loginResponse.setIsAthlete(currentUser.getIsAthlete());
+                return ResponseEntity.ok(loginResponse);
             } else
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         } else
