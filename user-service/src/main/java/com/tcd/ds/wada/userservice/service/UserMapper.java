@@ -8,7 +8,7 @@ public class UserMapper {
     	User user = new User();
     	user.setPassword(request.getPassword());
     	user.setUserEmail(request.getEmail());
-    	user.setUserName(request.getUsername());
+    	user.setName(request.getName());
 		user.setIsAthlete(request.getIsAthlete());
     	return user;
     }
