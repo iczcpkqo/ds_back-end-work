@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface AdoRepository extends MongoRepository<Ado, Integer> {
-    List<Athlete> findByLocation(Integer locationId);
+    List<Athlete> findByLocation(String country);
 }
