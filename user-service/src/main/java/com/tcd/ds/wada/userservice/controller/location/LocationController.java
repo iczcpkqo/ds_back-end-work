@@ -1,8 +1,7 @@
-package com.tcd.ds.wada.athleteservice.controller.location;
+package com.tcd.ds.wada.userservice.controller.location;
 
-import com.tcd.ds.wada.athleteservice.entity.Location;
-import com.tcd.ds.wada.athleteservice.model.LocationRequest;
-import com.tcd.ds.wada.athleteservice.model.LocationResponse;
+import com.tcd.ds.wada.userservice.model.location.LocationRequest;
+import com.tcd.ds.wada.userservice.model.location.LocationResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

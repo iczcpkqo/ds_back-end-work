@@ -1,10 +1,10 @@
-package com.tcd.ds.wada.athleteservice.service;
+package com.tcd.ds.wada.userservice.service;
 
-import com.tcd.ds.wada.athleteservice.entity.Location;
-import com.tcd.ds.wada.athleteservice.model.LocationRequest;
-import com.tcd.ds.wada.athleteservice.model.LocationResponse;
-import com.tcd.ds.wada.athleteservice.repository.LocationRepository;
-import com.tcd.ds.wada.athleteservice.service.mapper.LocationMapper;
+import com.tcd.ds.wada.userservice.entity.Location;
+import com.tcd.ds.wada.userservice.model.location.LocationRequest;
+import com.tcd.ds.wada.userservice.model.location.LocationResponse;
+import com.tcd.ds.wada.userservice.repository.LocationRepository;
+import com.tcd.ds.wada.userservice.service.mapper.LocationMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

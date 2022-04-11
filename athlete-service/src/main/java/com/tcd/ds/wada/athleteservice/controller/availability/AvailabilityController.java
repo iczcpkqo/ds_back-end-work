@@ -8,9 +8,6 @@ public interface AvailabilityController {
 
     String AVAILABILITY_BASE_URL = "/athlete/availability";
 
-//    @GetMapping(path = AVAILABILITY_BASE_URL + "/{athleteId}")
-//    ResponseEntity<List<Availability>> get(@PathVariable(value = "athleteId") final Integer athleteId);
-
     @PostMapping(path = AVAILABILITY_BASE_URL + "/{athleteId}")
     ResponseEntity<Object> add(@PathVariable(value = "athleteId") final String athleteId, @RequestBody AvailabilityRequest request);
 

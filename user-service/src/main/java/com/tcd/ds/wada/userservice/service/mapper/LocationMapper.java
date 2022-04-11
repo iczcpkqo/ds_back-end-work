@@ -1,7 +1,7 @@
-package com.tcd.ds.wada.athleteservice.service.mapper;
+package com.tcd.ds.wada.userservice.service.mapper;
 
-import com.tcd.ds.wada.athleteservice.entity.Location;
-import com.tcd.ds.wada.athleteservice.model.LocationRequest;
+import com.tcd.ds.wada.userservice.entity.Location;
+import com.tcd.ds.wada.userservice.model.location.LocationRequest;
 
 public class LocationMapper {
     public Location fromLocationRequestToEntity(LocationRequest request) {

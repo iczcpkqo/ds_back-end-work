@@ -1,7 +1,7 @@
 package com.tcd.ds.wada.athleteservice.service;
 
-import com.tcd.ds.wada.athleteservice.entity.Athlete;
-import com.tcd.ds.wada.athleteservice.entity.Availability;
+import com.tcd.ds.wada.userservice.entity.Athlete;
+import com.tcd.ds.wada.userservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
 import com.tcd.ds.wada.athleteservice.repository.AthleteRepository;
 import com.tcd.ds.wada.athleteservice.repository.AvailabilityRepository;
@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class AvailabilityService {
@@ -28,21 +29,6 @@ public class AvailabilityService {
 
     @Autowired
     AvailabilityRepository availabilityRepository;
-
-//    // Get existing future records of availability for athlete
-//    public ResponseEntity<List<Availability>> get(String athleteId) {
-//        logger.info("Getting Availability for Athlete Id (" + athleteId + ") ...");
-//
-//        Optional<List<Availability>> athleteAvailabilityList = repository.findByAthleteId(athleteId);
-//
-//        if (athleteAvailabilityList.isPresent()) {
-//            logger.info("Found");
-//            return ResponseEntity.ok(athleteAvailabilityList.get());
-//        } else {
-//            logger.info("Not Found");
-//            return ResponseEntity.notFound().build();
-//        }
-//    }
 
     // Add new record of availability for athlete
     public ResponseEntity<Object> add(String athleteId, AvailabilityRequest request) {
@@ -148,11 +134,9 @@ public class AvailabilityService {
 
         List<Availability> newAvailabilities = new ArrayList<>();
 
-        for (Availability eachAvailability: currentAvailabilities) {
-            if (eachAvailability.getAvailabilityId() != removeAvailability.getAvailabilityId()) {
+        for (Availability eachAvailability: currentAvailabilities)
+            if (!Objects.equals(eachAvailability.getAvailabilityId(), removeAvailability.getAvailabilityId()))
                 newAvailabilities.add(eachAvailability);
-            }
-        }
         return newAvailabilities;
     }
 }

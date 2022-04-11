@@ -1,6 +1,6 @@
 package com.tcd.ds.wada.athleteservice.model;
 
-import com.tcd.ds.wada.athleteservice.entity.Location;
+import com.tcd.ds.wada.userservice.entity.Location;
 import lombok.Data;
 
 @Data

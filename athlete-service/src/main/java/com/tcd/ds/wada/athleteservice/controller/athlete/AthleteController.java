@@ -1,7 +1,7 @@
 package com.tcd.ds.wada.athleteservice.controller.athlete;
 
-import com.tcd.ds.wada.athleteservice.entity.Athlete;
 import com.tcd.ds.wada.athleteservice.model.AthleteRequest;
+import com.tcd.ds.wada.userservice.entity.Athlete;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

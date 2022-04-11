@@ -20,7 +20,7 @@ public class Athlete {
     @Id
     private String athleteId;
     private String athleteName;
-    private Location homeLocation;
-    private String emailId;
+    private Location location;
+    private String athleteEmail;
     private List<Availability> availabilities;
 }

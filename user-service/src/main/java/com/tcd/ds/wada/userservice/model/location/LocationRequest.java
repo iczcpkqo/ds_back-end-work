@@ -1,4 +1,4 @@
-package com.tcd.ds.wada.athleteservice.model;
+package com.tcd.ds.wada.userservice.model.location;
 
 import lombok.Data;
 

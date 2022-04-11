@@ -1,9 +1,8 @@
-package com.tcd.ds.wada.athleteservice.controller.location;
+package com.tcd.ds.wada.userservice.controller.location;
 
-import com.tcd.ds.wada.athleteservice.entity.Location;
-import com.tcd.ds.wada.athleteservice.model.LocationRequest;
-import com.tcd.ds.wada.athleteservice.model.LocationResponse;
-import com.tcd.ds.wada.athleteservice.service.LocationService;
+import com.tcd.ds.wada.userservice.model.location.LocationRequest;
+import com.tcd.ds.wada.userservice.model.location.LocationResponse;
+import com.tcd.ds.wada.userservice.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;

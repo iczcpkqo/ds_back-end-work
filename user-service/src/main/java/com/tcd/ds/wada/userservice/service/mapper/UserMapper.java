@@ -1,4 +1,4 @@
-package com.tcd.ds.wada.userservice.service;
+package com.tcd.ds.wada.userservice.service.mapper;
 
 import com.tcd.ds.wada.userservice.entity.User;
 import com.tcd.ds.wada.userservice.model.UserRegistrationRequest;
