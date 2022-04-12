@@ -4,7 +4,7 @@ import com.tcd.ds.wada.userservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
 
 public class AvailabilityMapper {
-    public Availability fromAvailabilityRequestToAddEntity(AvailabilityRequest availabilityRequest) {
+    public Availability fromAvailabilityRequestToNewEntity(AvailabilityRequest availabilityRequest) {
         Availability availability = new Availability();
         availability.setStartTimeStamp(availabilityRequest.getStartTimeStamp());
         availability.setLocation(availabilityRequest.getLocation());
@@ -13,7 +13,7 @@ public class AvailabilityMapper {
     }
 
     public Availability fromAvailabilityRequestToUpdateEntity(AvailabilityRequest availabilityRequest) {
-        Availability availability = fromAvailabilityRequestToAddEntity(availabilityRequest);
+        Availability availability = fromAvailabilityRequestToNewEntity(availabilityRequest);
         availability.setAvailabilityId(availabilityRequest.getAvailabilityId());
         return availability;
     }

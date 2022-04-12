@@ -30,8 +30,8 @@ public class AvailabilityControllerImpl implements AvailabilityController {
     }
 
     @Override
-    public ResponseEntity<?> delete(String athleteId, AvailabilityRequest request) {
-        return service.delete(athleteId, request);
+    public ResponseEntity<?> delete(String availabilityId) {
+        return service.delete(availabilityId);
     }
 
 }

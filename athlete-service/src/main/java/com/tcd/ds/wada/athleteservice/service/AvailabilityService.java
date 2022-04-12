@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class AvailabilityService {
@@ -37,17 +38,12 @@ public class AvailabilityService {
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
 
         if (athlete != null) {
-            Availability newAvailability = new AvailabilityMapper().fromAvailabilityRequestToAddEntity(request);
+            Availability newAvailability = new AvailabilityMapper().fromAvailabilityRequestToNewEntity(request);
+            newAvailability.setAthlete(athlete);
 
-            if (!checkAvailabilityAdd(athlete.getAvailabilities(), newAvailability))
+            if (!addNewAvailabilityToDB(newAvailability)) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability already exists for athlete");
-
-            newAvailability = availabilityRepository.save(newAvailability);
-            athlete.getAvailabilities().add(newAvailability);
-            athleteRepository.save(athlete);
-
-            newAvailability.setAthleteId(athleteId);
-            availabilityRepository.save(newAvailability);
+            }
 
             logger.info("Availability: Added");
             return ResponseEntity.ok().body("Added");
@@ -65,23 +61,19 @@ public class AvailabilityService {
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
 
         if (athlete != null) {
-            // Get new availability obj
-            Availability updateAvailability = new AvailabilityMapper().fromAvailabilityRequestToUpdateEntity(request);
-
             // Remove current availability obj
-            List<Availability> newAvailabilityList = deleteAvailability(athlete.getAvailabilities(), updateAvailability);
+            deleteAvailabilityFromDB(request.getAvailabilityId());
 
-            // Check updated availability obj can be added or not
-            if (!checkAvailabilityAdd(newAvailabilityList, updateAvailability))
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("New availability already exists for athlete");
+            // Create new updated availability obj
+            Availability newAvailability = new AvailabilityMapper().fromAvailabilityRequestToNewEntity(request);
+            newAvailability.setAthlete(athlete);
 
-            // Add new availability obj to list and add list to athlete and save
-            newAvailabilityList.add(updateAvailability);
-            athlete.setAvailabilities(newAvailabilityList);
+            // Add new object to db
+            if (!addNewAvailabilityToDB(newAvailability)) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability already exists for athlete");
+            }
 
-            athleteRepository.save(athlete);
             logger.info("Availability: Updated");
-
             return ResponseEntity.ok().body("Updated");
         } else {
             logger.info("Availability: Athlete not found");
@@ -89,29 +81,33 @@ public class AvailabilityService {
         }
     }
 
+    boolean deleteAvailabilityFromDB(String availabilityId) {
+        Optional<Availability> availability = availabilityRepository.findById(availabilityId);
+        if (availability.isPresent()) {
+            availabilityRepository.delete(availability.get());
+            return true;
+        } else
+            return false;
+    }
+
+    boolean addNewAvailabilityToDB(Availability availability) {
+        if (checkAvailabilityAdd(availabilityRepository.findByAthlete(availability.getAthlete()), availability)) {
+            availabilityRepository.save(availability);
+            return true;
+        }
+        return false;
+    }
+
     // Delete existing future records of availability for athlete (if appointment is not set)
-    public ResponseEntity<String> delete(String athleteId, AvailabilityRequest request) {
+    public ResponseEntity<String> delete(String availabilityId) {
         logger.info("Availability: Delete for Athlete ... ");
 
-        // Get athlete obj from db
-        Athlete athlete = athleteService.getAthleteFromDb(athleteId);
-
-        if (athlete != null) {
-            // Get new availability obj
-            Availability deleteAvailability = new AvailabilityMapper().fromAvailabilityRequestToUpdateEntity(request);
-
-            // Remove current availability obj
-            List<Availability> newAvailabilityList = deleteAvailability(athlete.getAvailabilities(), deleteAvailability);
-
-            athlete.setAvailabilities(newAvailabilityList);
-
-            athleteRepository.save(athlete);
+        if (deleteAvailabilityFromDB(availabilityId)) {
             logger.info("Availability: Deleted");
-
             return ResponseEntity.ok().body("Deleted");
         } else {
-            logger.info("Availability: Athlete not found");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Athlete not found");
+            logger.info("Availability: Not found");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability not found");
         }
     }
 
@@ -126,17 +122,5 @@ public class AvailabilityService {
             }
         }
         return true;
-    }
-
-    public List<Availability> deleteAvailability(List<Availability> currentAvailabilities, Availability removeAvailability) {
-        if (currentAvailabilities.isEmpty())
-            return currentAvailabilities;
-
-        List<Availability> newAvailabilities = new ArrayList<>();
-
-        for (Availability eachAvailability: currentAvailabilities)
-            if (!Objects.equals(eachAvailability.getAvailabilityId(), removeAvailability.getAvailabilityId()))
-                newAvailabilities.add(eachAvailability);
-        return newAvailabilities;
     }
 }
