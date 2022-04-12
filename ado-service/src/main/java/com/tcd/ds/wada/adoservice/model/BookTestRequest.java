@@ -10,11 +10,5 @@ import javax.validation.constraints.NotNull;
 public class BookTestRequest {
 
     @NotNull
-    private Athlete athlete;
-
-    @NotNull
-    private Availability availability;
-
-    @NotNull
-    private String adoId;
+    private String availabilityId;
 }

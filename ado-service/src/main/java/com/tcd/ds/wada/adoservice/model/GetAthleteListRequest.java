@@ -2,6 +2,7 @@ package com.tcd.ds.wada.adoservice.model;
 
 import lombok.Data;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
 import java.util.Optional;
 
@@ -9,11 +10,5 @@ import java.util.Optional;
 public class GetAthleteListRequest {
 
     @NotNull
-    private String country;
-
-    @NotNull
-    private Long startTime;
-
-    @NotNull
-    private Long endTime;
+    private Integer adoId;
 }
