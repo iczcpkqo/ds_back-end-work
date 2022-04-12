@@ -13,10 +13,6 @@ public class AthleteMapper {
         athlete.setAthleteEmail(athleteRequest.getEmailId());
         athlete.setAthleteName(athleteRequest.getAthleteName());
         athlete.setLocation(athleteRequest.getHomeLocation());
-
-        List<Availability> availabilityList = new ArrayList<>();
-        athlete.setAvailabilities(availabilityList);
-
         return athlete;
     }
 }

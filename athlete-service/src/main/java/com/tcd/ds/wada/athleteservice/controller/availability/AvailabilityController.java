@@ -14,7 +14,7 @@ public interface AvailabilityController {
     @PatchMapping(path = AVAILABILITY_BASE_URL + "/{athleteId}")
     ResponseEntity<?> update(@PathVariable(value = "athleteId") final String athleteId, @RequestBody AvailabilityRequest request);
 
-    @DeleteMapping(path = AVAILABILITY_BASE_URL + "/{athleteId}")
-    ResponseEntity<?> delete(@PathVariable(value = "athleteId") final String athleteId, @RequestBody AvailabilityRequest request);
+    @DeleteMapping(path = AVAILABILITY_BASE_URL + "/{availabilityId}")
+    ResponseEntity<?> delete(@PathVariable(value = "availabilityId") final String availabilityId);
 
 }
