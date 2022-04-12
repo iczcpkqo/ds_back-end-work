@@ -8,6 +8,9 @@ import com.tcd.ds.wada.userservice.model.UserRegistrationRequest;
 import com.tcd.ds.wada.userservice.repository.AdoRepository;
 import com.tcd.ds.wada.userservice.repository.AthleteRepository;
 import com.tcd.ds.wada.userservice.repository.UserRepository;
+import com.tcd.ds.wada.userservice.service.mapper.AdoMapper;
+import com.tcd.ds.wada.userservice.service.mapper.AthleteMapper;
+import com.tcd.ds.wada.userservice.service.mapper.UserMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,19 +54,11 @@ public class UserRegistrationService {
         try {
             userRepository.save(user);
             if(user.getIsAthlete()){
-                Athlete athlete = new Athlete();
-                athlete.setAthleteName(user.getName());
-                athlete.setAvailabilities(new ArrayList<Availability>());
-                athlete.setEmailId(user.getUserEmail());
-                athlete.setHomeLocation(request.getLocation());
+                Athlete athlete = new AthleteMapper().fromRequestToEntity(request);
                 athleteRepository.save(athlete);
             }
             else{
-                Ado ado = new Ado();
-                ado.setAdoName(user.getName());
-                ado.setAthletes(new ArrayList<Athlete>());
-                ado.setLocation(request.getLocation());
-                ado.setAdoEmail(user.getUserEmail());
+                Ado ado = new AdoMapper().fromRequestToEntity(request);
                 adoRepository.save(ado);
             }
             logger.info("Registration: Complete");

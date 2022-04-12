@@ -1,10 +1,11 @@
 package com.tcd.ds.wada.athleteservice.model;
 
+import com.tcd.ds.wada.userservice.entity.Location;
 import lombok.Data;
 
 @Data
 public class AvailabilityRequest {
-    private Integer athleteId;
-    private Long timeStamp;
-    private String location;
+    private String availabilityId;
+    private Long startTimeStamp;
+    private Location location;
 }

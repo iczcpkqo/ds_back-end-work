@@ -15,7 +15,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
-      - "8006:8081"
+      - "8006:8080"
     depends_on:
       - mongos
 

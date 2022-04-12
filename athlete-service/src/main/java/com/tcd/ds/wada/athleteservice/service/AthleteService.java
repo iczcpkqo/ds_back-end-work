@@ -1,6 +1,6 @@
 package com.tcd.ds.wada.athleteservice.service;
 
-import com.tcd.ds.wada.athleteservice.entity.Athlete;
+import com.tcd.ds.wada.userservice.entity.Athlete;
 import com.tcd.ds.wada.athleteservice.model.AthleteRequest;
 import com.tcd.ds.wada.athleteservice.repository.AthleteRepository;
 import com.tcd.ds.wada.athleteservice.service.mapper.AthleteMapper;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,7 +21,7 @@ public class AthleteService {
     @Autowired
     AthleteRepository repository;
 
-    public ResponseEntity<Integer> add(AthleteRequest request) {
+    public ResponseEntity<String> add(AthleteRequest request) {
         logger.info("Adding Athlete ... ");
 
         Athlete athlete = new AthleteMapper().fromAthleteRequestToEntity(request);
@@ -30,17 +31,39 @@ public class AthleteService {
         return new ResponseEntity<>(athlete.getAthleteId(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Athlete> get(Integer athleteId) {
-        logger.info("Getting Athlete Id (" + athleteId + ") ...");
+    public ResponseEntity<Athlete> get(String athleteId) {
+        logger.info("Athlete: Getting Athlete");
+        Athlete athlete = getAthleteFromDb(athleteId);
+        if (athlete != null) {
+            return ResponseEntity.ok(athlete);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<List<Athlete>> get() {
+        logger.info("Athlete: Getting All Athletes");
+        List<Athlete> athletes = repository.findAll();
+        return ResponseEntity.ok(athletes);
+    }
+
+    public ResponseEntity<String> delete(String athleteId) {
+        logger.info("Athlete: Deleting athlete");
+        repository.deleteById(athleteId);
+        return ResponseEntity.ok().body("");
+    }
+
+    public Athlete getAthleteFromDb(String athleteId) {
+        logger.info("Athlete: Getting Athlete Id (" + athleteId + ") from DB");
 
         Optional<Athlete> athlete = repository.findById(athleteId);
 
         if (athlete.isPresent()) {
-            logger.info("Found");
-            return ResponseEntity.ok(athlete.get());
+            logger.info("Athlete: Found");
+            return athlete.get();
         } else {
-            logger.info("Not found");
-            return ResponseEntity.notFound().build();
+            logger.info("Athlete: Not found");
+            return null;
         }
     }
 }
