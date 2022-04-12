@@ -1,7 +1,7 @@
 package com.tcd.ds.wada.athleteservice.service;
 
-import com.tcd.ds.wada.userservice.entity.Athlete;
-import com.tcd.ds.wada.userservice.entity.Availability;
+import com.tcd.ds.wada.athleteservice.entity.Athlete;
+import com.tcd.ds.wada.athleteservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
 import com.tcd.ds.wada.athleteservice.repository.AthleteRepository;
 import com.tcd.ds.wada.athleteservice.repository.AvailabilityRepository;
@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service

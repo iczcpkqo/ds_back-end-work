@@ -1,6 +1,6 @@
 package com.tcd.ds.wada.athleteservice.service.mapper;
 
-import com.tcd.ds.wada.userservice.entity.Availability;
+import com.tcd.ds.wada.athleteservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
 
 public class AvailabilityMapper {

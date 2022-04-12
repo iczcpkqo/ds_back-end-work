@@ -1,6 +1,6 @@
 package com.tcd.ds.wada.athleteservice.service;
 
-import com.tcd.ds.wada.userservice.entity.Athlete;
+import com.tcd.ds.wada.athleteservice.entity.Athlete;
 import com.tcd.ds.wada.athleteservice.model.AthleteRequest;
 import com.tcd.ds.wada.athleteservice.repository.AthleteRepository;
 import com.tcd.ds.wada.athleteservice.service.mapper.AthleteMapper;
