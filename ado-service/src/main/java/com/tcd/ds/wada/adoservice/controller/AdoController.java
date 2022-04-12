@@ -25,7 +25,7 @@ public interface AdoController {
             @RequestBody GetAthleteListRequest getAthleteListRequest);
 
     @ResponseBody
-    @PostMapping(path = ADO_BASE_URL + "/getAthletes")
+    @PostMapping(path = ADO_BASE_URL + "/getAllAppointments")
     public ResponseEntity<List<Availability>> getAllAppointments(
             @RequestBody GetAppointmentsRequest getAppointmentsRequest);
 
