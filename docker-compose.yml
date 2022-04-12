@@ -19,6 +19,15 @@ services:
     depends_on:
       - mongos
 
+  ado-service:
+    build: ado-service
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8007:8080"
+    depends_on:
+      - mongos
+
   mongos:
     image: 'bitnami/mongodb-sharded:latest'
     environment:

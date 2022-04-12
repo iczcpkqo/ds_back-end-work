@@ -11,7 +11,8 @@
 	<groupId>com.tcd.ds.wada</groupId>
 	<artifactId>athlete-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>athleteservice</name>
+	<packaging>jar</packaging>
+	<name>athlete-service</name>
 	<description>Spring Boot Project for WADA Athlete locator</description>
 	<properties>
 		<java.version>1.8</java.version>
@@ -35,13 +36,13 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.20</version>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.data</groupId>
-			<artifactId>spring-data-mongodb</artifactId>
-		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>org.springframework.data</groupId>-->
+<!--			<artifactId>spring-data-mongodb</artifactId>-->
+<!--		</dependency>-->
 		<dependency>
 			<groupId>com.tcd.ds.wada</groupId>
-			<artifactId>user-service</artifactId>
+			<artifactId>userservice</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
@@ -49,8 +50,8 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>
