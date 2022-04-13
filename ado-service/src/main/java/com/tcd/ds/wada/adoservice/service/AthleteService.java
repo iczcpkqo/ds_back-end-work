@@ -45,7 +45,7 @@ public class AthleteService {
 
     }
 
-    @CachePut(value = "Availability", key = "#availabilityId")
+    //@CachePut(value = "Availability", key = "#availabilityId")
     public void bookTestForAthlete(BookTestRequest bookTestRequest) {
 
         logger.info("Intercepted request to book test for athlete with availability: " + bookTestRequest.getAvailabilityId());
@@ -57,7 +57,7 @@ public class AthleteService {
         logger.info("Availability updated for athlete");
     }
 
-    public ResponseEntity<List<Availability>> getListOfAppointments(Integer adoId){
+    public ResponseEntity<List<Availability>> getListOfAppointments(String adoId){
 
         logger.info("Intercepted request to get list of appointments for ado: " + adoId);
 

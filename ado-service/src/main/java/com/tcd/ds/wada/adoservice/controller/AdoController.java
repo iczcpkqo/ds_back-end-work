@@ -18,7 +18,7 @@ import java.util.List;
 public interface AdoController {
     String ADO_BASE_URL = "/ado";
 
-    @Cacheable
+    //@Cacheable
     @ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/getAthletes")
     public ResponseEntity<List<Athlete>> getListOfAthletes(

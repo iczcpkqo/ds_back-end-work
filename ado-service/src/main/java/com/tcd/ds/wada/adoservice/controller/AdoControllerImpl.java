@@ -17,12 +17,12 @@ public class AdoControllerImpl implements AdoController {
     @Autowired
     AthleteService athleteService;
 
-    @Cacheable
+    //@Cacheable
     public ResponseEntity<List<Athlete>> getListOfAthletes(GetAthleteListRequest getAthleteListRequest){
         return athleteService.getListOfAthletes(getAthleteListRequest);
     }
 
-    @Cacheable
+    //@Cacheable
     public ResponseEntity<List<Availability>> getAllAppointments(GetAppointmentsRequest getAppointmentsRequest) {
         return athleteService.getListOfAppointments(getAppointmentsRequest.getAdoId());
     }
