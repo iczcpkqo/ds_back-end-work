@@ -68,7 +68,8 @@ public class AthleteService {
         List<Availability> appointments = null;
         if(adoId != null){
             Location location = adoRepository.findById(adoId).get().getLocation();
-            appointments = availabilityRepository.findByLocation(location);
+            appointments = availabilityRepository.findByAthleteLocationAndIsAppointment(location, true);
+
         }
         return ResponseEntity.ok(appointments);
     }

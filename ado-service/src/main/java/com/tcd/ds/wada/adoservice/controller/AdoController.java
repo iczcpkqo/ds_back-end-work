@@ -14,22 +14,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-@RestController
 public interface AdoController {
     String ADO_BASE_URL = "/ado";
 
     //@Cacheable
-    @ResponseBody
+    //@ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/getAthletes")
     public ResponseEntity<List<Athlete>> getListOfAthletes(
             @RequestBody GetAthleteListRequest getAthleteListRequest);
 
-    @ResponseBody
+    //@ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/getAllAppointments")
     public ResponseEntity<List<Availability>> getAllAppointments(
             @RequestBody GetAppointmentsRequest getAppointmentsRequest);
 
-    @ResponseBody
+    //@ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/bookTestForAthlete")
     public void bookTestForAthlete(
             @RequestBody BookTestRequest bookTestRequest);

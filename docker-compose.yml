@@ -24,8 +24,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8005:8080"
-    depends_on:
-      - mongos
+#    depends_on:
+#      - mongos
 
   user-service:
     build: user-service
@@ -33,8 +33,8 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8006:8080"
-    depends_on:
-      - mongos
+#    depends_on:
+#      - mongos
 
   ado-service:
     build: ado-service
@@ -42,66 +42,66 @@ services:
       - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8007:8080"
-    depends_on:
-      - mongos
+#    depends_on:
+#      - mongos
 
-  mongos:
-    image: 'bitnami/mongodb-sharded:latest'
-    environment:
-      - MONGODB_SHARDING_MODE=mongos
-      - MONGODB_CFG_PRIMARY_HOST=mongodb-configsvr-primary
-      - MONGODB_CFG_REPLICA_SET_NAME=cfgreplicaset
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-      - MONGODB_ROOT_PASSWORD=123456
-      - MONGODB_ADVERTISED_HOSTNAME=mongos
-    ports:
-      - "27017:27017"
-
-  mongodb-shard0-primary:
-    image: 'bitnami/mongodb-sharded:latest'
-    environment:
-      - MONGODB_SHARDING_MODE=shardsvr
-      - MONGODB_MONGOS_HOST=mongos
-      - MONGODB_ROOT_PASSWORD=123456
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-      - MONGODB_REPLICA_SET_NAME=shard0
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard0-primary
-    ports:
-      - "27018:27017"
-
-  mongodb-shard1-primary:
-    image: 'bitnami/mongodb-sharded:latest'
-    environment:
-      - MONGODB_SHARDING_MODE=shardsvr
-      - MONGODB_MONGOS_HOST=mongos
-      - MONGODB_ROOT_PASSWORD=123456
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-      - MONGODB_REPLICA_SET_NAME=shard1
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard1-primary
-    ports:
-      - "27019:27017"
-
-  mongodb-shard2-primary:
-    image: 'bitnami/mongodb-sharded:latest'
-    environment:
-      - MONGODB_SHARDING_MODE=shardsvr
-      - MONGODB_MONGOS_HOST=mongos
-      - MONGODB_ROOT_PASSWORD=123456
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-      - MONGODB_REPLICA_SET_NAME=shard2
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard2-primary
-    ports:
-      - "27020:27017"
-
-  mongodb-configsvr-primary:
-    image: 'bitnami/mongodb-sharded:latest'
-    environment:
-      - MONGODB_SHARDING_MODE=configsvr
-      - MONGODB_ROOT_PASSWORD=123456
-      - MONGODB_REPLICA_SET_MODE=primary
-      - MONGODB_REPLICA_SET_KEY=replicasetkey123
-      - MONGODB_REPLICA_SET_NAME=config-replicaset
-      - MONGODB_ADVERTISED_HOSTNAME=mongodb-configsvr-primary
+#  mongos:
+#    image: 'bitnami/mongodb-sharded:latest'
+#    environment:
+#      - MONGODB_SHARDING_MODE=mongos
+#      - MONGODB_CFG_PRIMARY_HOST=mongodb-configsvr-primary
+#      - MONGODB_CFG_REPLICA_SET_NAME=cfgreplicaset
+#      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+#      - MONGODB_ROOT_PASSWORD=123456
+#      - MONGODB_ADVERTISED_HOSTNAME=mongos
+#    ports:
+#      - "27017:27017"
+#
+#  mongodb-shard0-primary:
+#    image: 'bitnami/mongodb-sharded:latest'
+#    environment:
+#      - MONGODB_SHARDING_MODE=shardsvr
+#      - MONGODB_MONGOS_HOST=mongos
+#      - MONGODB_ROOT_PASSWORD=123456
+#      - MONGODB_REPLICA_SET_MODE=primary
+#      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+#      - MONGODB_REPLICA_SET_NAME=shard0
+#      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard0-primary
+#    ports:
+#      - "27018:27017"
+#
+#  mongodb-shard1-primary:
+#    image: 'bitnami/mongodb-sharded:latest'
+#    environment:
+#      - MONGODB_SHARDING_MODE=shardsvr
+#      - MONGODB_MONGOS_HOST=mongos
+#      - MONGODB_ROOT_PASSWORD=123456
+#      - MONGODB_REPLICA_SET_MODE=primary
+#      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+#      - MONGODB_REPLICA_SET_NAME=shard1
+#      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard1-primary
+#    ports:
+#      - "27019:27017"
+#
+#  mongodb-shard2-primary:
+#    image: 'bitnami/mongodb-sharded:latest'
+#    environment:
+#      - MONGODB_SHARDING_MODE=shardsvr
+#      - MONGODB_MONGOS_HOST=mongos
+#      - MONGODB_ROOT_PASSWORD=123456
+#      - MONGODB_REPLICA_SET_MODE=primary
+#      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+#      - MONGODB_REPLICA_SET_NAME=shard2
+#      - MONGODB_ADVERTISED_HOSTNAME=mongodb-shard2-primary
+#    ports:
+#      - "27020:27017"
+#
+#  mongodb-configsvr-primary:
+#    image: 'bitnami/mongodb-sharded:latest'
+#    environment:
+#      - MONGODB_SHARDING_MODE=configsvr
+#      - MONGODB_ROOT_PASSWORD=123456
+#      - MONGODB_REPLICA_SET_MODE=primary
+#      - MONGODB_REPLICA_SET_KEY=replicasetkey123
+#      - MONGODB_REPLICA_SET_NAME=config-replicaset
+#      - MONGODB_ADVERTISED_HOSTNAME=mongodb-configsvr-primary
