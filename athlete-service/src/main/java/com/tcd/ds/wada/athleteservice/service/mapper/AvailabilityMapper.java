@@ -8,7 +8,7 @@ public class AvailabilityMapper {
         Availability availability = new Availability();
         availability.setStartTimeStamp(availabilityRequest.getStartTimeStamp());
         availability.setLocation(availabilityRequest.getLocation());
-
+        availability.setIsAppointment(false);
         return availability;
     }
 

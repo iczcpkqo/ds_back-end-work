@@ -3,7 +3,6 @@ package com.tcd.ds.wada.athleteservice.service;
 import com.tcd.ds.wada.athleteservice.entity.Athlete;
 import com.tcd.ds.wada.athleteservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
-import com.tcd.ds.wada.athleteservice.repository.AthleteRepository;
 import com.tcd.ds.wada.athleteservice.repository.AvailabilityRepository;
 import com.tcd.ds.wada.athleteservice.service.mapper.AvailabilityMapper;
 import org.slf4j.Logger;
@@ -21,13 +20,26 @@ public class AvailabilityService {
     private static final Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 
     @Autowired
-    AthleteRepository athleteRepository;
-
-    @Autowired
     AthleteService athleteService;
 
     @Autowired
     AvailabilityRepository availabilityRepository;
+
+    public ResponseEntity<Availability> get(String availabilityId) {
+        logger.info("Athlete: Getting Athlete");
+        Availability availability = getAvailabilityFromDb(availabilityId);
+        if (availability != null) {
+            return ResponseEntity.ok(availability);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<List<Availability>> get() {
+        logger.info("Athlete: Getting All Athletes");
+        List<Availability> availabilityList = (List<Availability>) availabilityRepository.findAll();
+        return ResponseEntity.ok(availabilityList);
+    }
 
     // Add new record of availability for athlete
     public ResponseEntity<Object> add(String athleteId, AvailabilityRequest request) {
@@ -79,23 +91,6 @@ public class AvailabilityService {
         }
     }
 
-    boolean deleteAvailabilityFromDB(String availabilityId) {
-        Optional<Availability> availability = availabilityRepository.findById(availabilityId);
-        if (availability.isPresent()) {
-            availabilityRepository.delete(availability.get());
-            return true;
-        } else
-            return false;
-    }
-
-    boolean addNewAvailabilityToDB(Availability availability) {
-        if (checkAvailabilityAdd(availabilityRepository.findByAthlete(availability.getAthlete()), availability)) {
-            availabilityRepository.save(availability);
-            return true;
-        }
-        return false;
-    }
-
     // Delete existing future records of availability for athlete (if appointment is not set)
     public ResponseEntity<String> delete(String availabilityId) {
         logger.info("Availability: Delete for Athlete ... ");
@@ -120,5 +115,36 @@ public class AvailabilityService {
             }
         }
         return true;
+    }
+
+    public Availability getAvailabilityFromDb(String availabilityId) {
+        logger.info("Availability: Getting Availability Id (" + availabilityId + ") from DB");
+
+        Optional<Availability> availability = availabilityRepository.findById(availabilityId);
+
+        if (availability.isPresent()) {
+            logger.info("Availability: Found");
+            return availability.get();
+        } else {
+            logger.info("Availability: Not found");
+            return null;
+        }
+    }
+
+    boolean addNewAvailabilityToDB(Availability availability) {
+        if (checkAvailabilityAdd(availabilityRepository.findByAthlete(availability.getAthlete()), availability)) {
+            availabilityRepository.save(availability);
+            return true;
+        }
+        return false;
+    }
+
+    boolean deleteAvailabilityFromDB(String availabilityId) {
+        Optional<Availability> availability = availabilityRepository.findById(availabilityId);
+        if (availability.isPresent()) {
+            availabilityRepository.delete(availability.get());
+            return true;
+        } else
+            return false;
     }
 }
