@@ -10,6 +10,7 @@ public class UserMapper {
     	user.setUserEmail(request.getEmail());
     	user.setName(request.getName());
 		user.setIsAthlete(request.getIsAthlete());
+		user.setLocation(request.getLocation());
     	return user;
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @AllArgsConstructor
 @NoArgsConstructor
 @CompoundIndexes({
-        @CompoundIndex(name = "region_id", def = "{'location.region' : 1, 'availabilityId': 1}")
+        @CompoundIndex(name = "availability_region_id", def = "{'athlete.location.region' : 1, 'availabilityId': 1}")
 })
 public class Availability {
     @Id
