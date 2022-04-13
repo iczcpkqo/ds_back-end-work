@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AdoRepository extends MongoRepository<Ado, Integer> {
+public interface AdoRepository extends MongoRepository<Ado, String> {
     List<Athlete> findByLocation(String country);
 }
