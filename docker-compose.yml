@@ -1,6 +1,23 @@
 version: '2.1'
 
 services:
+  eureka:
+    build: eurekaserver
+    mem_limit: 350m
+    environment:
+      - JAVA_OPTS=-Djdk.tls.client.protocols=TLSv1.2
+    ports:
+      - "8761:8761"
+
+  gateway:
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+      - JAVA_OPTS=-Djdk.tls.client.protocols=TLSv1.2
+    build: gateway
+    mem_limit: 350m
+    ports:
+      - "8080:8080"
+
   athlete-service:
     build: athlete-service
     environment:

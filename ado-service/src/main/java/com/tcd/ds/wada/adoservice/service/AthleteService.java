@@ -30,18 +30,22 @@ public class AthleteService {
     @Autowired
     AvailabilityRepository availabilityRepository;
 
+    @Autowired
+    AthleteRepository athleteRepository;
+
     //Returns list of athletes in ado's location
     public ResponseEntity<List<Athlete>> getListOfAthletes(GetAthleteListRequest getAthleteListRequest) {
 
         logger.info("Intercepted request to get List of athletes for ado: " + getAthleteListRequest.getAdoId());
         List<Athlete> athletes;
         Optional<Ado> ado = adoRepository.findById(getAthleteListRequest.getAdoId());
-        athletes = ado.get().getAthletes();
-        if(athletes.isEmpty()){
+        Location location = ado.get().getLocation();
+        List<Athlete> athleteList = athleteRepository.findByLocation(location);
+        if(athleteList.isEmpty()){
             logger.info("No athletes registered under this ado");
             ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(athletes);
+        return ResponseEntity.ok(athleteList);
 
     }
 

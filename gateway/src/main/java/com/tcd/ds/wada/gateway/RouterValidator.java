@@ -10,7 +10,8 @@ public class RouterValidator {
 
     public static final List<String> openApiEndpoints = Arrays.asList(new String[]{
                 "/user/register",
-                "/user/login"
+                "/user/login",
+                "/location"
     });
 
     public boolean useSecurity(ServerHttpRequest request) {
