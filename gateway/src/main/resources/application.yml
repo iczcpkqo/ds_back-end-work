@@ -38,9 +38,23 @@ spring.cloud.gateway.routes:
 - id: user-service
   uri: lb://user-service
   predicates:
-  - Path=/user/**
+  - Path=/user/**, /location/**
   filters:
   - AuthenticationGatewayFilter
+
+- id: ado-service
+  uri: lb://ado-service
+  predicates:
+    - Path=/ado/**
+  filters:
+    - AuthenticationGatewayFilter
+
+- id: athlete-service
+  uri: lb://athlete-service
+  predicates:
+    - Path=/athlete/**
+  filters:
+    - AuthenticationGatewayFilter
 
 spring:
   cloud:
