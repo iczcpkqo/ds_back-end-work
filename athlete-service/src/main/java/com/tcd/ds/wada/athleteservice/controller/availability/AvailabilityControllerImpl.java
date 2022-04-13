@@ -2,6 +2,7 @@ package com.tcd.ds.wada.athleteservice.controller.availability;
 
 import com.tcd.ds.wada.athleteservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
+import com.tcd.ds.wada.athleteservice.model.AvailabilityResponse;
 import com.tcd.ds.wada.athleteservice.service.AvailabilityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,18 @@ public class AvailabilityControllerImpl implements AvailabilityController {
     AvailabilityService service;
 
     @Override
-    public ResponseEntity<Availability> get(String availabilityId) {
+    public ResponseEntity<AvailabilityResponse> get(String availabilityId) {
         return service.get(availabilityId);
     }
 
     @Override
-    public ResponseEntity<List<Availability>> get() {
+    public ResponseEntity<List<AvailabilityResponse>> get() {
         return service.get();
+    }
+
+    @Override
+    public ResponseEntity<List<AvailabilityResponse>> getForAthlete(String athleteId) {
+        return service.getForAthlete(athleteId);
     }
 
     @Override

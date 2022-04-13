@@ -3,6 +3,7 @@ package com.tcd.ds.wada.athleteservice.service;
 import com.tcd.ds.wada.athleteservice.entity.Athlete;
 import com.tcd.ds.wada.athleteservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
+import com.tcd.ds.wada.athleteservice.model.AvailabilityResponse;
 import com.tcd.ds.wada.athleteservice.repository.AvailabilityRepository;
 import com.tcd.ds.wada.athleteservice.service.mapper.AvailabilityMapper;
 import org.slf4j.Logger;
@@ -25,20 +26,36 @@ public class AvailabilityService {
     @Autowired
     AvailabilityRepository availabilityRepository;
 
-    public ResponseEntity<Availability> get(String availabilityId) {
-        logger.info("Athlete: Getting Athlete");
+    public ResponseEntity<AvailabilityResponse> get(String availabilityId) {
+        logger.info("Availability: Getting Availability");
         Availability availability = getAvailabilityFromDb(availabilityId);
         if (availability != null) {
-            return ResponseEntity.ok(availability);
+            AvailabilityResponse response = new AvailabilityMapper().fromEntityToResponse(availability);
+            return ResponseEntity.ok(response);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
-    public ResponseEntity<List<Availability>> get() {
-        logger.info("Athlete: Getting All Athletes");
+    public ResponseEntity<List<AvailabilityResponse>> get() {
+        logger.info("Availability: Getting All Availabilities");
         List<Availability> availabilityList = (List<Availability>) availabilityRepository.findAll();
-        return ResponseEntity.ok(availabilityList);
+        List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
+        return ResponseEntity.ok(responseList);
+    }
+
+    public ResponseEntity<List<AvailabilityResponse>> getForAthlete(String athleteId) {
+        logger.info("Availability: Getting all Availabilities for athlete id " + athleteId);
+
+        Athlete athlete = athleteService.getAthleteFromDb(athleteId);
+        if (athlete != null) {
+            List<Availability> availabilityList = getAvailabilitiesOfAthlete(athlete);
+            List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
+            return ResponseEntity.ok(responseList);
+        } else {
+            logger.info("Availability: Athlete not found");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
     // Add new record of availability for athlete
@@ -48,7 +65,7 @@ public class AvailabilityService {
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
 
         if (athlete != null) {
-            Availability newAvailability = new AvailabilityMapper().fromAvailabilityRequestToNewEntity(request);
+            Availability newAvailability = new AvailabilityMapper().fromRequestToNewEntity(request);
             newAvailability.setAthlete(athlete);
 
             if (!addNewAvailabilityToDB(newAvailability)) {
@@ -75,7 +92,7 @@ public class AvailabilityService {
             deleteAvailabilityFromDB(request.getAvailabilityId());
 
             // Create new updated availability obj
-            Availability newAvailability = new AvailabilityMapper().fromAvailabilityRequestToNewEntity(request);
+            Availability newAvailability = new AvailabilityMapper().fromRequestToNewEntity(request);
             newAvailability.setAthlete(athlete);
 
             // Add new object to db
@@ -131,8 +148,12 @@ public class AvailabilityService {
         }
     }
 
+    List<Availability> getAvailabilitiesOfAthlete(Athlete athlete) {
+        return availabilityRepository.findByAthlete(athlete);
+    }
+
     boolean addNewAvailabilityToDB(Availability availability) {
-        if (checkAvailabilityAdd(availabilityRepository.findByAthlete(availability.getAthlete()), availability)) {
+        if (checkAvailabilityAdd(getAvailabilitiesOfAthlete(availability.getAthlete()), availability)) {
             availabilityRepository.save(availability);
             return true;
         }
