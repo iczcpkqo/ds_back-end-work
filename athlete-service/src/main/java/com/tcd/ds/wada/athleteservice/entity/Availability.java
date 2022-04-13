@@ -1,4 +1,4 @@
-package com.tcd.ds.wada.userservice.entity;
+package com.tcd.ds.wada.athleteservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,17 +9,17 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Data
-@Document("User")
+@Document("Availability")
 @AllArgsConstructor
 @NoArgsConstructor
 @CompoundIndexes({
-		@CompoundIndex(name = "user_region_id", def = "{'location.region' : 1, 'userEmail': 1}")
+        @CompoundIndex(name = "availability_region_id", def = "{'athlete.location.region' : 1, 'availabilityId': 1}")
 })
-public class User {
-	@Id
-	private String userEmail;
-	private String name;
-	private String password;
-	private Boolean isAthlete;
-	private Location location;
+public class Availability {
+    @Id
+    private String availabilityId;
+    private Athlete athlete;
+    private Long startTimeStamp;
+    private Location location;
+    private Boolean isAppointment;
 }

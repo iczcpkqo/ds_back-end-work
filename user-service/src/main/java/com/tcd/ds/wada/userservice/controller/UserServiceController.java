@@ -14,12 +14,12 @@ import java.util.List;
 
 public interface UserServiceController {
 
-	String BASE_URL = "/user";
+	String USER_BASE_URL = "/user";
 
-	@PostMapping(path = BASE_URL + "/register")
+	@PostMapping(path = USER_BASE_URL + "/register")
 	public ResponseEntity<Object> register(@RequestBody UserRegistrationRequest request);
 
-	@PostMapping(path = BASE_URL + "/login")
+	@PostMapping(path = USER_BASE_URL + "/login")
 	public @ResponseBody
 	ResponseEntity<LoginResponse> login(@RequestBody UserLoginRequest request);
 

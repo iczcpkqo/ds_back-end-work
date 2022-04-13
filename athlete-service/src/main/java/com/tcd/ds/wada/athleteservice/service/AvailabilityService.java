@@ -1,9 +1,9 @@
 package com.tcd.ds.wada.athleteservice.service;
 
-import com.tcd.ds.wada.userservice.entity.Athlete;
-import com.tcd.ds.wada.userservice.entity.Availability;
+import com.tcd.ds.wada.athleteservice.entity.Athlete;
+import com.tcd.ds.wada.athleteservice.entity.Availability;
 import com.tcd.ds.wada.athleteservice.model.AvailabilityRequest;
-import com.tcd.ds.wada.athleteservice.repository.AthleteRepository;
+import com.tcd.ds.wada.athleteservice.model.AvailabilityResponse;
 import com.tcd.ds.wada.athleteservice.repository.AvailabilityRepository;
 import com.tcd.ds.wada.athleteservice.service.mapper.AvailabilityMapper;
 import org.slf4j.Logger;
@@ -13,9 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -23,13 +21,42 @@ public class AvailabilityService {
     private static final Logger logger = LoggerFactory.getLogger(AvailabilityService.class);
 
     @Autowired
-    AthleteRepository athleteRepository;
-
-    @Autowired
     AthleteService athleteService;
 
     @Autowired
     AvailabilityRepository availabilityRepository;
+
+    public ResponseEntity<AvailabilityResponse> get(String availabilityId) {
+        logger.info("Availability: Getting Availability");
+        Availability availability = getAvailabilityFromDb(availabilityId);
+        if (availability != null) {
+            AvailabilityResponse response = new AvailabilityMapper().fromEntityToResponse(availability);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    public ResponseEntity<List<AvailabilityResponse>> get() {
+        logger.info("Availability: Getting All Availabilities");
+        List<Availability> availabilityList = (List<Availability>) availabilityRepository.findAll();
+        List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
+        return ResponseEntity.ok(responseList);
+    }
+
+    public ResponseEntity<List<AvailabilityResponse>> getForAthlete(String athleteId) {
+        logger.info("Availability: Getting all Availabilities for athlete id " + athleteId);
+
+        Athlete athlete = athleteService.getAthleteFromDb(athleteId);
+        if (athlete != null) {
+            List<Availability> availabilityList = getAvailabilitiesOfAthlete(athlete);
+            List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
+            return ResponseEntity.ok(responseList);
+        } else {
+            logger.info("Availability: Athlete not found");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+    }
 
     // Add new record of availability for athlete
     public ResponseEntity<Object> add(String athleteId, AvailabilityRequest request) {
@@ -38,7 +65,7 @@ public class AvailabilityService {
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
 
         if (athlete != null) {
-            Availability newAvailability = new AvailabilityMapper().fromAvailabilityRequestToNewEntity(request);
+            Availability newAvailability = new AvailabilityMapper().fromRequestToNewEntity(request);
             newAvailability.setAthlete(athlete);
 
             if (!addNewAvailabilityToDB(newAvailability)) {
@@ -65,7 +92,7 @@ public class AvailabilityService {
             deleteAvailabilityFromDB(request.getAvailabilityId());
 
             // Create new updated availability obj
-            Availability newAvailability = new AvailabilityMapper().fromAvailabilityRequestToNewEntity(request);
+            Availability newAvailability = new AvailabilityMapper().fromRequestToNewEntity(request);
             newAvailability.setAthlete(athlete);
 
             // Add new object to db
@@ -79,23 +106,6 @@ public class AvailabilityService {
             logger.info("Availability: Athlete not found");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Athlete not found");
         }
-    }
-
-    boolean deleteAvailabilityFromDB(String availabilityId) {
-        Optional<Availability> availability = availabilityRepository.findById(availabilityId);
-        if (availability.isPresent()) {
-            availabilityRepository.delete(availability.get());
-            return true;
-        } else
-            return false;
-    }
-
-    boolean addNewAvailabilityToDB(Availability availability) {
-        if (checkAvailabilityAdd(availabilityRepository.findByAthlete(availability.getAthlete()), availability)) {
-            availabilityRepository.save(availability);
-            return true;
-        }
-        return false;
     }
 
     // Delete existing future records of availability for athlete (if appointment is not set)
@@ -122,5 +132,40 @@ public class AvailabilityService {
             }
         }
         return true;
+    }
+
+    public Availability getAvailabilityFromDb(String availabilityId) {
+        logger.info("Availability: Getting Availability Id (" + availabilityId + ") from DB");
+
+        Optional<Availability> availability = availabilityRepository.findById(availabilityId);
+
+        if (availability.isPresent()) {
+            logger.info("Availability: Found");
+            return availability.get();
+        } else {
+            logger.info("Availability: Not found");
+            return null;
+        }
+    }
+
+    List<Availability> getAvailabilitiesOfAthlete(Athlete athlete) {
+        return availabilityRepository.findByAthlete(athlete);
+    }
+
+    boolean addNewAvailabilityToDB(Availability availability) {
+        if (checkAvailabilityAdd(getAvailabilitiesOfAthlete(availability.getAthlete()), availability)) {
+            availabilityRepository.save(availability);
+            return true;
+        }
+        return false;
+    }
+
+    boolean deleteAvailabilityFromDB(String availabilityId) {
+        Optional<Availability> availability = availabilityRepository.findById(availabilityId);
+        if (availability.isPresent()) {
+            availabilityRepository.delete(availability.get());
+            return true;
+        } else
+            return false;
     }
 }

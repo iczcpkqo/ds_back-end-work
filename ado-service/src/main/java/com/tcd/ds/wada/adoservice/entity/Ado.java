@@ -1,24 +1,27 @@
-package com.tcd.ds.wada.userservice.entity;
+package com.tcd.ds.wada.adoservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.annotation.Id;
+
+import java.util.List;
 
 @Data
-@Document("Athlete")
+@Document("Ado")
 @AllArgsConstructor
 @NoArgsConstructor
 @CompoundIndexes({
-        @CompoundIndex(name = "region_id", def = "{'location.region' : 1, 'athleteId': 1}")
+        @CompoundIndex(name = "ado_region_id", def = "{'location.region' : 1, 'adoId': 1}")
 })
-public class Athlete {
+public class Ado {
     @Id
-    private String athleteId;
-    private String athleteName;
+    private String adoId;
+    private String adoName;
+    private String adoEmail;
     private Location location;
-    private String athleteEmail;
+    private List<Athlete> athletes;
 }

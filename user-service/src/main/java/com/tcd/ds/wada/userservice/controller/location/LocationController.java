@@ -11,11 +11,11 @@ import java.util.List;
 
 public interface LocationController {
 
-    String ATHLETE_BASE_URL = "/location";
+    String LOCATION_BASE_URL = "/location";
 
-    @PostMapping(path = ATHLETE_BASE_URL)
+    @PostMapping(path = LOCATION_BASE_URL)
     ResponseEntity<String> add(@RequestBody List<LocationRequest> requests);
 
-    @GetMapping(path = ATHLETE_BASE_URL)
+    @GetMapping(path = LOCATION_BASE_URL)
     ResponseEntity<LocationResponse> get();
 }

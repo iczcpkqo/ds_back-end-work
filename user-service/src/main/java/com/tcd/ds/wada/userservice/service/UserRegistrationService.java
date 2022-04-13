@@ -2,7 +2,6 @@ package com.tcd.ds.wada.userservice.service;
 
 import com.tcd.ds.wada.userservice.entity.Ado;
 import com.tcd.ds.wada.userservice.entity.Athlete;
-import com.tcd.ds.wada.userservice.entity.Availability;
 import com.tcd.ds.wada.userservice.entity.User;
 import com.tcd.ds.wada.userservice.model.UserRegistrationRequest;
 import com.tcd.ds.wada.userservice.repository.AdoRepository;
@@ -18,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 @Service

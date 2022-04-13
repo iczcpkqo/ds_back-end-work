@@ -1,4 +1,4 @@
-package com.tcd.ds.wada.userservice.entity;
+package com.tcd.ds.wada.adoservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
