@@ -1,0 +1,9 @@
+Method,Name,Error,Occurrences
+GET,/location,Remote end closed connection without response,4
+POST,/user/login,Remote end closed connection without response,2
+GET,/availability,"(<urllib3.connection.HTTPConnection object at 0x0000023BCB870370>, 'Connection to 52.190.2.8 timed out. (connect timeout=None)')",3742
+GET,/location,"(<urllib3.connection.HTTPConnection object at 0x0000023BC634AD70>, 'Connection to 52.190.2.8 timed out. (connect timeout=None)')",2834
+POST,/ado/getAllAppointments,"(<urllib3.connection.HTTPConnection object at 0x0000023BC86323B0>, 'Connection to 52.190.2.8 timed out. (connect timeout=None)')",2885
+POST,/user/login,"(<urllib3.connection.HTTPConnection object at 0x0000023BC7BBD630>, 'Connection to 52.190.2.8 timed out. (connect timeout=None)')",2820
+POST,/ado/getAthletes,"(<urllib3.connection.HTTPConnection object at 0x0000023BC7C40E20>, 'Connection to 52.190.2.8 timed out. (connect timeout=None)')",2834
+GET,/availability,Remote end closed connection without response,11

@@ -1,0 +1,46 @@
+Count,Message,Traceback,Nodes
+3753,,"  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 319, in run
+    self.execute_next_task()
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 344, in execute_next_task
+    self.execute_task(self._task_queue.pop(0))
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 457, in execute_task
+    task(self.user)
+  File ""C:\guowen\dis\wada-athlete-locator\high-load-testing\UserInstanceTesting.py"", line 60, in get_all_availability
+    assert resp.status_code == 200
+",local
+2834,,"  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 319, in run
+    self.execute_next_task()
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 344, in execute_next_task
+    self.execute_task(self._task_queue.pop(0))
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 457, in execute_task
+    task(self.user)
+  File ""C:\guowen\dis\wada-athlete-locator\high-load-testing\UserInstanceTesting.py"", line 46, in get_all_athletes_ado
+    assert resp.status_code == 200
+",local
+2885,,"  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 319, in run
+    self.execute_next_task()
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 344, in execute_next_task
+    self.execute_task(self._task_queue.pop(0))
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 457, in execute_task
+    task(self.user)
+  File ""C:\guowen\dis\wada-athlete-locator\high-load-testing\UserInstanceTesting.py"", line 53, in get_appointments
+    assert resp.status_code == 200
+",local
+2838,,"  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 319, in run
+    self.execute_next_task()
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 344, in execute_next_task
+    self.execute_task(self._task_queue.pop(0))
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 457, in execute_task
+    task(self.user)
+  File ""C:\guowen\dis\wada-athlete-locator\high-load-testing\UserInstanceTesting.py"", line 31, in get_locations
+    assert resp.status_code == 200
+",local
+2822,,"  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 319, in run
+    self.execute_next_task()
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 344, in execute_next_task
+    self.execute_task(self._task_queue.pop(0))
+  File ""C:\Users\Administrator\AppData\Local\Programs\Python\Python310\lib\site-packages\locust\user\task.py"", line 457, in execute_task
+    task(self.user)
+  File ""C:\guowen\dis\wada-athlete-locator\high-load-testing\UserInstanceTesting.py"", line 38, in athletes_login
+    assert resp.status_code == 200
+",local

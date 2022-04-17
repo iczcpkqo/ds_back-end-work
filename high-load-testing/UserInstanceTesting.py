@@ -2,7 +2,7 @@
 Author: Guowen Liu
 Date: 2022-04-15 15:33:25
 LastEditors: Guowen Liu
-LastEditTime: 2022-04-17 17:41:45
+LastEditTime: 2022-04-17 21:58:57
 Copyright (c) 2022 by Guowen Liu, All Rights Reserved.
 '''
 import random
@@ -13,7 +13,7 @@ from locust.env import Environment
 import json
 
 class UserInstance(HttpUser):
-    wait_time = between(1, 2)
+    wait_time = between(1, 1)
     _REGISTRATION_URL = '/user/register'
     _LOCATIONS_URL = ':8006/location'
     _LOGIN_URL = ':8006/user/login'
