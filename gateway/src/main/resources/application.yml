@@ -71,6 +71,7 @@ spring:
 
 
 security.enable.csrf: false
+management.endpoints.web.exposure.include: health,info,prometheus
 
 logging:
   level:
