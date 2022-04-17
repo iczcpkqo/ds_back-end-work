@@ -1,0 +1,70 @@
+sh.shardCollection("wada.Athlete", {location.region: 1,athleteId: 1});
+{"location.region" : 1, "athleteId": 1}
+
+sh.shardCollection("wada.Availability", {'athlete.location.region' : 1, 'availabilityId': 1});
+sh.shardCollection("wada.Ado", {"location.region" : 1, "adoId": 1});
+
+sh.disableBalancing("wada.Athlete")
+sh.disableBalancing("wada.Availability")
+
+sh.addShardTag( "shard0" , "Europe");
+sh.addShardTag("shard1","America");
+sh.addShardTag("shard2","Asia");
+
+sh.addTagRange( 
+	"wada.Availability", 
+	{ "athlete.location.region" : "Europe", "availabilityId" : MinKey},
+	{ "athlete.location.region" : "Europe", "availabilityId" : MaxKey}, 
+	"Europe" 
+)
+
+sh.addTagRange( 
+	"wada.Athlete", 
+	{ "location.region" : "Europe", "athleteId" : MinKey},
+	{ "location.region" : "Europe", "athleteId" : MaxKey}, 
+	"Europe" 
+)
+
+sh.addTagRange( 
+	"wada.Athlete", 
+	{ "location.region" : "America", "athleteId" : MinKey},
+	{ "location.region" : "America", "athleteId" : MaxKey}, 
+	"America" 
+)
+
+sh.addTagRange( 
+	"wada.Availability", 
+	{ "athlete.location.region" : "America", "availabilityId" : MinKey},
+	{ "athlete.location.region" : "America", "availabilityId" : MaxKey}, 
+	"America" 
+)
+
+sh.addTagRange( 
+	"wada.Athlete", 
+	{ "location.region" : "Asia", "athleteId" : MinKey},
+	{ "location.region" : "Asia", "athleteId" : MaxKey}, 
+	"Asia" 
+)
+
+sh.addTagRange( 
+	"wada.Availability", 
+	{ "athlete.location.region" : "Asia", "availabilityId" : MinKey},
+	{ "athlete.location.region" : "Asia", "availabilityId" : MaxKey}, 
+	"Asia" 
+)
+
+sh.enableBalancing("wada.Athlete")
+sh.enableBalancing("wada.Availability")
+db.adminCommand({
+  reshardCollection: "wada.Athlete",
+  key: {"location.region": 1, "athleteId": 1}
+})
+
+db.adminCommand({
+  reshardCollection: "wada.Availability",
+  key: {"athlete.location.region": 1,"availabilityId": 1}
+})
+
+ {  "_id" : "shard0",  "host" : "shard0/mongodb-shard0-primary:27017,mongodb-shard0-secondary-1:27017,mongodb-shard0-secondary-2:27017",  "state" : 1,  "topologyTime" : Timestamp(1649802058, 1) }
+        {  "_id" : "shard1",  "host" : "shard1/mongodb-shard1-primary:27017,mongodb-shard1-secondary-1:27017,mongodb-shard1-secondary-2:27017",  "state" : 1,  "topologyTime" : Timestamp(1649802053, 5) }
+        {  "_id" : "shard2",  "host" : "shard2/mongodb-shard2-primary:27017,mongodb-shard2-secondary-1:27017,mongodb-shard2-secondary-2:27017",  "state" : 1,  "topologyTime" : Timestamp(1649802058, 6) }
