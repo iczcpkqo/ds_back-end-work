@@ -6,4 +6,5 @@ import lombok.Data;
 public class LoginResponse {
     private String token;
     private Boolean isAthlete;
+    private String id;
 }

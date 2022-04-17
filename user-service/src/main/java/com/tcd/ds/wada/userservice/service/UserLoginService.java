@@ -1,8 +1,12 @@
 package com.tcd.ds.wada.userservice.service;
 
+import com.tcd.ds.wada.userservice.entity.Ado;
+import com.tcd.ds.wada.userservice.entity.Athlete;
 import com.tcd.ds.wada.userservice.entity.User;
 import com.tcd.ds.wada.userservice.model.LoginResponse;
 import com.tcd.ds.wada.userservice.model.UserLoginRequest;
+import com.tcd.ds.wada.userservice.repository.AdoRepository;
+import com.tcd.ds.wada.userservice.repository.AthleteRepository;
 import com.tcd.ds.wada.userservice.repository.UserRepository;
 import com.tcd.ds.wada.userservice.utils.JWTokenHelper;
 import org.slf4j.Logger;
@@ -23,6 +27,12 @@ public class UserLoginService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private AthleteRepository athleteRepository;
+
+    @Autowired
+    private AdoRepository adoRepository;
+
     public ResponseEntity<LoginResponse> login(UserLoginRequest request) {
     	logger.info("Login: Processing");
 
@@ -35,9 +45,21 @@ public class UserLoginService {
                 if (token == null || token.isEmpty())
                     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 logger.info("Login: Token Generated");
+
+                String id = null;
+                if(currentUser.getIsAthlete()){
+                    Athlete athlete = athleteRepository.findByAthleteEmail(currentUser.getUserEmail());
+                    id = athlete.getAthleteId();
+                }
+                else{
+                    Ado ado = adoRepository.findByAdoEmail(currentUser.getUserEmail());
+                    id = ado.getAdoId();
+                }
+
                 LoginResponse loginResponse = new LoginResponse();
                 loginResponse.setToken(token);
                 loginResponse.setIsAthlete(currentUser.getIsAthlete());
+                loginResponse.setId(id);
                 return ResponseEntity.ok(loginResponse);
             } else
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
