@@ -18,19 +18,19 @@ public interface AdoController {
     String ADO_BASE_URL = "/ado";
 
     //@Cacheable
-    //@ResponseBody
+    @ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/getAthletes")
     public ResponseEntity<List<Athlete>> getListOfAthletes(
             @RequestBody GetAthleteListRequest getAthleteListRequest);
 
-    //@ResponseBody
+    @ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/getAllAppointments")
     public ResponseEntity<List<Availability>> getAllAppointments(
             @RequestBody GetAppointmentsRequest getAppointmentsRequest);
 
-    //@ResponseBody
+    @ResponseBody
     @PostMapping(path = ADO_BASE_URL + "/bookTestForAthlete")
-    public void bookTestForAthlete(
+    public ResponseEntity<?> bookTestForAthlete(
             @RequestBody BookTestRequest bookTestRequest);
 
 }

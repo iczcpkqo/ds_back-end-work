@@ -50,15 +50,36 @@ public class AthleteService {
     }
 
     //@CachePut(value = "Availability", key = "#availabilityId")
-    public void bookTestForAthlete(BookTestRequest bookTestRequest) {
+    public ResponseEntity<?> bookTestForAthlete(BookTestRequest bookTestRequest) {
 
         logger.info("Intercepted request to book test for athlete with availability: " + bookTestRequest.getAvailabilityId());
 
-        Optional<Availability> availability = availabilityRepository.findById(bookTestRequest.getAvailabilityId());
-        availability.get().setIsAppointment(true);
-        availabilityRepository.save(availability.get());
+        Optional<Availability> athleteAvailability = availabilityRepository.findById(bookTestRequest.getAvailabilityId());
 
-        logger.info("Availability updated for athlete");
+        if(athleteAvailability.get().getIsAppointment()){
+            return ResponseEntity.internalServerError().body("Already booked");
+        }
+
+        //can only book within 48 hours
+        long currentTime = System.currentTimeMillis();
+        if(currentTime < athleteAvailability.get().getStartTimeStamp() - Long.parseLong("172800")){
+            return ResponseEntity.ok().body("Booking only allowed within 48 hours of availability");
+        }
+
+        //for same availability location and time records, if any of them is true -> not possible
+        List<Availability> availabilities = availabilityRepository.
+                findByLocationAndStartTimeStamp(athleteAvailability.get().getLocation(),
+                        athleteAvailability.get().getStartTimeStamp(), true);
+
+        if(!availabilities.isEmpty() && !athleteAvailability.get().getIsAppointment()) {
+            athleteAvailability.get().setIsAppointment(true);
+            availabilityRepository.save(athleteAvailability.get());
+            logger.info("Availability updated for athlete");
+            return ResponseEntity.ok().body("Appointment saved");
+        }
+        else{
+            return ResponseEntity.ok().body("Appointment already exists for another athlete");
+        }
     }
 
     public ResponseEntity<List<Availability>> getListOfAppointments(String adoId){
