@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface AdoRepository extends MongoRepository<Ado, Integer> {
     List<Athlete> findByLocation(String country);
+    Ado findByAdoEmail(String adoEmail);
 }

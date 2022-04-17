@@ -5,4 +5,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AthleteRepository extends MongoRepository<Athlete, String> {
+    Athlete findByAthleteEmail(String athleteEmail);
 }
