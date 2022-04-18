@@ -5,7 +5,7 @@ import com.tcd.ds.wada.adoservice.entity.Availability;
 import com.tcd.ds.wada.adoservice.model.BookTestRequest;
 import com.tcd.ds.wada.adoservice.model.GetAppointmentsRequest;
 import com.tcd.ds.wada.adoservice.model.GetAthleteListRequest;
-import com.tcd.ds.wada.adoservice.service.AthleteService;
+import com.tcd.ds.wada.adoservice.service.ADOService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -16,20 +16,20 @@ import java.util.List;
 public class AdoControllerImpl implements AdoController {
 
     @Autowired
-    AthleteService athleteService;
+    ADOService ADOService;
 
     //@Cacheable
     public ResponseEntity<List<Athlete>> getListOfAthletes(GetAthleteListRequest getAthleteListRequest){
-        return athleteService.getListOfAthletes(getAthleteListRequest);
+        return ADOService.getListOfAthletes(getAthleteListRequest);
     }
 
     //@Cacheable
     public ResponseEntity<List<Availability>> getAllAppointments(GetAppointmentsRequest getAppointmentsRequest) {
-        return athleteService.getListOfAppointments(getAppointmentsRequest.getAdoId());
+        return ADOService.getListOfAppointments(getAppointmentsRequest.getAdoId());
     }
 
     public ResponseEntity<?> bookTestForAthlete(BookTestRequest bookTestRequest){
-        return athleteService.bookTestForAthlete(bookTestRequest);
+        return ADOService.bookTestForAthlete(bookTestRequest);
     }
 
 }
