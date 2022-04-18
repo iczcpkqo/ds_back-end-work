@@ -52,7 +52,7 @@ spring.cloud.gateway.routes:
 - id: athlete-service
   uri: lb://athlete-service
   predicates:
-    - Path=/athlete/**
+    - Path=/athlete/**, /availability/**
   filters:
     - AuthenticationGatewayFilter
 
