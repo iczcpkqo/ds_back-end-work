@@ -19,17 +19,17 @@ public class AvailabilityControllerImpl implements AvailabilityController {
     AvailabilityService service;
 
     @Override
-    public ResponseEntity<AvailabilityResponse> get(String availabilityId) {
+    public ResponseEntity<Availability> get(String availabilityId) {
         return service.get(availabilityId);
     }
 
     @Override
-    public ResponseEntity<List<AvailabilityResponse>> get() {
+    public ResponseEntity<List<Availability>> get() {
         return service.get();
     }
 
     @Override
-    public ResponseEntity<List<AvailabilityResponse>> getForAthlete(String athleteId) {
+    public ResponseEntity<List<Availability>> getForAthlete(String athleteId) {
         return service.getForAthlete(athleteId);
     }
 

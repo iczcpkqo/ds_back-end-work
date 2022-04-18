@@ -28,33 +28,33 @@ public class AvailabilityService {
     @Autowired
     AvailabilityRepository availabilityRepository;
 
-    public ResponseEntity<AvailabilityResponse> get(String availabilityId) {
+    public ResponseEntity<Availability> get(String availabilityId) {
         logger.info("Availability: Getting Availability");
         Availability availability = getAvailabilityFromDb(availabilityId);
         if (availability != null) {
-            AvailabilityResponse response = new AvailabilityMapper().fromEntityToResponse(availability);
-            return ResponseEntity.ok(response);
+            //AvailabilityResponse response = new AvailabilityMapper().fromEntityToResponse(availability);
+            return ResponseEntity.ok(availability);
         } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     //@Cacheable(value = "Availability")
-    public ResponseEntity<List<AvailabilityResponse>> get() {
+    public ResponseEntity<List<Availability>> get() {
         logger.info("Availability: Getting All Availabilities");
         List<Availability> availabilityList = (List<Availability>) availabilityRepository.findAll();
-        List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
-        return ResponseEntity.ok(responseList);
+        //List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
+        return ResponseEntity.ok(availabilityList);
     }
 
-    public ResponseEntity<List<AvailabilityResponse>> getForAthlete(String athleteId) {
+    public ResponseEntity<List<Availability>> getForAthlete(String athleteId) {
         logger.info("Availability: Getting all Availabilities for athlete id " + athleteId);
 
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
         if (athlete != null) {
             List<Availability> availabilityList = getAvailabilitiesOfAthlete(athlete);
-            List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
-            return ResponseEntity.ok(responseList);
+            //List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
+            return ResponseEntity.ok(availabilityList);
         } else {
             logger.info("Availability: Athlete not found");
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
