@@ -16,4 +16,5 @@ public interface AvailabilityRepository extends CrudRepository<Availability, Str
     @Query(value = "{ '$or':[ {'athlete.location':?0}, {'location':?0} ], 'isAppointment' : ?1 }")
     List<Availability> findByAthleteLocationAndIsAppointment(Location location, Boolean isAppointment);
 
+    List<Availability> findByLocationAndStartTimeStampAndIsAppointment(Location location, Long startTimeStamp, Boolean isAppointment);
 }

@@ -29,8 +29,8 @@ public class AdoControllerImpl implements AdoController {
         return athleteService.getListOfAppointments(getAppointmentsRequest.getAdoId());
     }
 
-    public void bookTestForAthlete(BookTestRequest bookTestRequest){
-        athleteService.bookTestForAthlete(bookTestRequest);
+    public ResponseEntity<?> bookTestForAthlete(BookTestRequest bookTestRequest){
+        return athleteService.bookTestForAthlete(bookTestRequest);
     }
 
 }

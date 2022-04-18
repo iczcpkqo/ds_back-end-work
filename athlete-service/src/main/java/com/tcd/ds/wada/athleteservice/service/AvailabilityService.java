@@ -9,6 +9,8 @@ import com.tcd.ds.wada.athleteservice.service.mapper.AvailabilityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,7 @@ public class AvailabilityService {
         }
     }
 
+    //@Cacheable(value = "Availability")
     public ResponseEntity<List<AvailabilityResponse>> get() {
         logger.info("Availability: Getting All Availabilities");
         List<Availability> availabilityList = (List<Availability>) availabilityRepository.findAll();
@@ -59,6 +62,7 @@ public class AvailabilityService {
     }
 
     // Add new record of availability for athlete
+    //@CachePut(value = "Availability", key = "#request.availabilityId")
     public ResponseEntity<Object> add(String athleteId, AvailabilityRequest request) {
         logger.info("Availability: Adding for Athlete ... ");
 
@@ -81,6 +85,7 @@ public class AvailabilityService {
     }
 
     // Update existing future record of availability for athlete
+    //@CachePut(value = "Availability", key = "#request.availabilityId")
     public ResponseEntity<String> update(String athleteId, AvailabilityRequest request) {
         logger.info("Availability: Updating for Athlete ... ");
 
@@ -134,6 +139,7 @@ public class AvailabilityService {
         return true;
     }
 
+    //@Cacheable(value = "Availability", key = "#availabilityId")
     public Availability getAvailabilityFromDb(String availabilityId) {
         logger.info("Availability: Getting Availability Id (" + availabilityId + ") from DB");
 

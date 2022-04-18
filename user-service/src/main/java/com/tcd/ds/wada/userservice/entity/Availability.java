@@ -1,4 +1,4 @@
-package com.tcd.ds.wada.adoservice.entity;
+package com.tcd.ds.wada.userservice.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,7 @@ import org.springframework.data.mongodb.core.mapping.Sharded;
 @CompoundIndexes({
         @CompoundIndex(name = "region_id", def = "{'athlete.location.region' : 1, 'availabilityId': 1}")
 })
-@Sharded(shardKey = { "athlete.location.region", "availabilityId" })
+//@Sharded(shardKey = { "athlete.location.region", "availabilityId" })
 public class Availability {
     @Id
     private String availabilityId;
