@@ -1,1 +1,5 @@
 .idea/
+.env
+raw data/
+.pyc
+high-load-testing/__pycache__/testing.cpython-310.pyc
