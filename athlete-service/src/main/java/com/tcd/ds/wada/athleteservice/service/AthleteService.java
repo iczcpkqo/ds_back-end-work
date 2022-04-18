@@ -7,6 +7,9 @@ import com.tcd.ds.wada.athleteservice.service.mapper.AthleteMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -21,6 +24,7 @@ public class AthleteService {
     @Autowired
     AthleteRepository repository;
 
+    //@CachePut(value="Athlete", key="#request.emailId")
     public ResponseEntity<String> add(AthleteRequest request) {
         logger.info("Adding Athlete ... ");
 
@@ -41,18 +45,21 @@ public class AthleteService {
         }
     }
 
+    //@Cacheable(value="Athlete")
     public ResponseEntity<List<Athlete>> get() {
         logger.info("Athlete: Getting All Athletes");
         List<Athlete> athletes = repository.findAll();
         return ResponseEntity.ok(athletes);
     }
 
+    //@CacheEvict(value="Athlete", key="#athleteId")
     public ResponseEntity<String> delete(String athleteId) {
         logger.info("Athlete: Deleting athlete");
         repository.deleteById(athleteId);
         return ResponseEntity.ok().body("");
     }
 
+    //@Cacheable(value="Athlete", key="#athleteId")
     public Athlete getAthleteFromDb(String athleteId) {
         logger.info("Athlete: Getting Athlete Id (" + athleteId + ") from DB");
 

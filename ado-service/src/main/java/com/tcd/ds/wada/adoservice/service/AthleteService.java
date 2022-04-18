@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -34,6 +35,7 @@ public class AthleteService {
     AthleteRepository athleteRepository;
 
     //Returns list of athletes in ado's location
+    //@Cacheable(value="Athlete")
     public ResponseEntity<List<Athlete>> getListOfAthletes(GetAthleteListRequest getAthleteListRequest) {
 
         logger.info("Intercepted request to get List of athletes for ado: " + getAthleteListRequest.getAdoId());
@@ -49,7 +51,7 @@ public class AthleteService {
 
     }
 
-    //@CachePut(value = "Availability", key = "#availabilityId")
+    //@CachePut(value = "Availability", key = "#bookTestRequest.availabilityId")
     public ResponseEntity<?> bookTestForAthlete(BookTestRequest bookTestRequest) {
 
         logger.info("Intercepted request to book test for athlete with availability: " + bookTestRequest.getAvailabilityId());
@@ -62,16 +64,16 @@ public class AthleteService {
 
         //can only book within 48 hours
         long currentTime = System.currentTimeMillis();
-        if(currentTime < athleteAvailability.get().getStartTimeStamp() - Long.parseLong("172800")){
+        if(currentTime < athleteAvailability.get().getStartTimeStamp() - Long.parseLong("172800000")){
             return ResponseEntity.ok().body("Booking only allowed within 48 hours of availability");
         }
 
         //for same availability location and time records, if any of them is true -> not possible
         List<Availability> availabilities = availabilityRepository.
-                findByLocationAndStartTimeStamp(athleteAvailability.get().getLocation(),
+                findByLocationAndStartTimeStampAndIsAppointment(athleteAvailability.get().getLocation(),
                         athleteAvailability.get().getStartTimeStamp(), true);
 
-        if(!availabilities.isEmpty() && !athleteAvailability.get().getIsAppointment()) {
+        if(availabilities.isEmpty() && !athleteAvailability.get().getIsAppointment()) {
             athleteAvailability.get().setIsAppointment(true);
             availabilityRepository.save(athleteAvailability.get());
             logger.info("Availability updated for athlete");
@@ -82,6 +84,7 @@ public class AthleteService {
         }
     }
 
+    //@Cacheable(value = "Availability")
     public ResponseEntity<List<Availability>> getListOfAppointments(String adoId){
 
         logger.info("Intercepted request to get list of appointments for ado: " + adoId);
