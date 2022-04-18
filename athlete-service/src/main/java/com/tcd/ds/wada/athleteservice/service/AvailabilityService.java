@@ -75,12 +75,13 @@ public class AvailabilityService {
             Availability newAvailability = new AvailabilityMapper().fromRequestToNewEntity(request);
             newAvailability.setAthlete(athlete);
 
-            if (!addNewAvailabilityToDB(newAvailability)) {
+            String newAvailabilityId = addNewAvailabilityToDB(newAvailability);
+            if (newAvailabilityId == null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability already exists for athlete");
             }
 
             logger.info("Availability: Added");
-            return ResponseEntity.ok().body("Added");
+            return ResponseEntity.ok().body(newAvailabilityId);
         } else {
             logger.info("Availability: Athlete not found");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Athlete not found");
@@ -104,12 +105,13 @@ public class AvailabilityService {
             newAvailability.setAthlete(athlete);
 
             // Add new object to db
-            if (!addNewAvailabilityToDB(newAvailability)) {
+            String updatedAvailabilityId = addNewAvailabilityToDB(newAvailability);
+            if (updatedAvailabilityId == null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability already exists for athlete");
             }
 
             logger.info("Availability: Updated");
-            return ResponseEntity.ok().body("Updated");
+            return ResponseEntity.ok().body(updatedAvailabilityId);
         } else {
             logger.info("Availability: Athlete not found");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Athlete not found");
@@ -161,12 +163,12 @@ public class AvailabilityService {
         return availabilityRepository.findByAthlete(athlete);
     }
 
-    boolean addNewAvailabilityToDB(Availability availability) {
+    String addNewAvailabilityToDB(Availability availability) {
         if (checkAvailabilityAdd(getAvailabilitiesOfAthlete(availability.getAthlete()), availability)) {
-            availabilityRepository.save(availability);
-            return true;
+            Availability newAvailability = availabilityRepository.save(availability);
+            return newAvailability.getAvailabilityId();
         }
-        return false;
+        return null;
     }
 
     boolean deleteAvailabilityFromDB(String availabilityId) {
