@@ -1,19 +1,14 @@
 package com.tcd.ds.wada.adoservice.service;
 
+import com.tcd.ds.wada.adoservice.entity.*;
 import com.tcd.ds.wada.adoservice.model.BookTestRequest;
 import com.tcd.ds.wada.adoservice.model.GetAthleteListRequest;
-import com.tcd.ds.wada.adoservice.entity.Ado;
-import com.tcd.ds.wada.adoservice.entity.Athlete;
-import com.tcd.ds.wada.adoservice.entity.Availability;
-import com.tcd.ds.wada.adoservice.entity.Location;
 import com.tcd.ds.wada.adoservice.repository.AdoRepository;
 import com.tcd.ds.wada.adoservice.repository.AthleteRepository;
 import com.tcd.ds.wada.adoservice.repository.AvailabilityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -74,8 +69,17 @@ public class AthleteService {
                         athleteAvailability.get().getStartTimeStamp(), true);
 
         if(availabilities.isEmpty() && !athleteAvailability.get().getIsAppointment()) {
-            athleteAvailability.get().setIsAppointment(true);
-            availabilityRepository.save(athleteAvailability.get());
+
+            Availability availability = new Availability();
+            availability.setAvailabilityId(athleteAvailability.get().getAvailabilityId());
+            availability.setAthlete(athleteAvailability.get().getAthlete());
+            availability.setLocation(athleteAvailability.get().getLocation());
+            availability.setStartTimeStamp(athleteAvailability.get().getStartTimeStamp());
+            availability.setIsAppointment(true);
+
+            availabilityRepository.delete(athleteAvailability.get());
+            availabilityRepository.save(availability);
+
             logger.info("Availability updated for athlete");
             return ResponseEntity.ok().body("Appointment saved");
         }
@@ -93,7 +97,7 @@ public class AthleteService {
         if(adoId != null){
             Location location = adoRepository.findById(adoId).get().getLocation();
             appointments = availabilityRepository.findByAthleteLocationAndIsAppointment(location, true);
-
+            //appointments = appointmentRepository.findByAthleteLocation(location);
         }
         return ResponseEntity.ok(appointments);
     }

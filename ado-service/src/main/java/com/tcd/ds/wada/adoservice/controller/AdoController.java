@@ -5,12 +5,10 @@ import com.tcd.ds.wada.adoservice.entity.Availability;
 import com.tcd.ds.wada.adoservice.model.BookTestRequest;
 import com.tcd.ds.wada.adoservice.model.GetAppointmentsRequest;
 import com.tcd.ds.wada.adoservice.model.GetAthleteListRequest;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

@@ -7,7 +7,6 @@ import com.tcd.ds.wada.adoservice.model.GetAppointmentsRequest;
 import com.tcd.ds.wada.adoservice.model.GetAthleteListRequest;
 import com.tcd.ds.wada.adoservice.service.AthleteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
