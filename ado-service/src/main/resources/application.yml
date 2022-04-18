@@ -1,5 +1,7 @@
 server.port: 7002
 spring.application.name: ado-service
+spring.redis.host: ${app.redis-server}
+spring.redis.port: 6379
 app.eureka-server: localhost
 logging:
     file: ./logs/ado-serice.log
@@ -24,3 +26,4 @@ management.endpoints.web.exposure.include: health,info,prometheus
 spring.profiles: docker
 server.port: 8080
 app.eureka-server: eureka
+app.redis-server: redis-server
