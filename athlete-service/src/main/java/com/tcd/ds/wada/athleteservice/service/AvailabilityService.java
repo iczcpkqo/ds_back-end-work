@@ -69,6 +69,9 @@ public class AvailabilityService {
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
 
         if (athlete != null) {
+            if (System.currentTimeMillis() > request.getStartTimeStamp())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability time should be in future and in milliseconds");
+
             Availability newAvailability = new AvailabilityMapper().fromRequestToNewEntity(request);
             newAvailability.setAthlete(athlete);
 
