@@ -6,7 +6,6 @@ import com.tcd.ds.wada.adoservice.model.GetAthleteListRequest;
 import com.tcd.ds.wada.adoservice.repository.AdoRepository;
 import com.tcd.ds.wada.adoservice.repository.AthleteRepository;
 import com.tcd.ds.wada.adoservice.repository.AvailabilityRepository;
-import org.apache.http.HttpResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class AthleteService {
+public class ADOService {
 
-    private static final Logger logger = LoggerFactory.getLogger(AthleteService.class);
+    private static final Logger logger = LoggerFactory.getLogger(ADOService.class);
 
     @Autowired
     AdoRepository adoRepository;
