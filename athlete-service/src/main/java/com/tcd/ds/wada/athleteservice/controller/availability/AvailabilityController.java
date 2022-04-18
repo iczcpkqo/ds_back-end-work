@@ -14,13 +14,13 @@ public interface AvailabilityController {
     String AVAILABILITY_BASE_URL = "/availability";
 
     @GetMapping(path = AVAILABILITY_BASE_URL + "/{availabilityId}")
-    ResponseEntity<AvailabilityResponse> get(@PathVariable(value = "availabilityId") final String availabilityId);
+    ResponseEntity<Availability> get(@PathVariable(value = "availabilityId") final String availabilityId);
 
     @GetMapping(path = AVAILABILITY_BASE_URL)
-    ResponseEntity<List<AvailabilityResponse>> get();
+    ResponseEntity<List<Availability>> get();
 
     @GetMapping(path = AVAILABILITY_BASE_URL + "/athlete/{athleteId}")
-    ResponseEntity<List<AvailabilityResponse>> getForAthlete(@PathVariable(value = "athleteId") final String athleteId);
+    ResponseEntity<List<Availability>> getForAthlete(@PathVariable(value = "athleteId") final String athleteId);
 
     @PostMapping(path = AVAILABILITY_BASE_URL + "/{athleteId}")
     ResponseEntity<Object> add(@PathVariable(value = "athleteId") final String athleteId, @RequestBody AvailabilityRequest request);
