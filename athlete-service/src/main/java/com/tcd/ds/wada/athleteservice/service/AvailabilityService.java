@@ -64,7 +64,7 @@ public class AvailabilityService {
     }
 
     // Add new record of availability for athlete
-    //@CachePut(value = "Availability", key = "#request.availabilityId")
+    @CachePut(value = "Availability", key = "#request.availabilityId")
     public ResponseEntity<Object> add(String athleteId, AvailabilityRequest request) {
         logger.info("Availability: Adding for Athlete ... ");
 
@@ -91,7 +91,7 @@ public class AvailabilityService {
     }
 
     // Update existing future record of availability for athlete
-    //@CachePut(value = "Availability", key = "#request.availabilityId")
+    @CachePut(value = "Availability", key = "#request.availabilityId")
     public ResponseEntity<String> update(String athleteId, AvailabilityRequest request) {
         logger.info("Availability: Updating for Athlete ... ");
 
