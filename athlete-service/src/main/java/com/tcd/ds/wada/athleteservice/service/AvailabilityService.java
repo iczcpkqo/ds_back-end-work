@@ -95,8 +95,19 @@ public class AvailabilityService {
 
         // Get athlete obj from db
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
+        Optional<Availability> availability = availabilityRepository.findById(request.getAvailabilityId());
 
-        if (athlete != null) {
+        if (athlete != null && availability.isPresent()) {
+
+            Availability currentAvailability = availability.get();
+
+            Long currentTimeMillis = System.currentTimeMillis();
+            if (currentTimeMillis > request.getStartTimeStamp())
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability time should be in future and in milliseconds");
+
+            if (currentAvailability.getStartTimeStamp() - currentTimeMillis < 172800000)
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability within 48 hours. Cannot be edited.");
+
             // Remove current availability obj
             deleteAvailabilityFromDB(request.getAvailabilityId());
 
@@ -136,7 +147,7 @@ public class AvailabilityService {
             return true;
 
         for (Availability eachAvailability: presentAvailabilities) {
-            if (Math.abs(newAvailability.getStartTimeStamp() - eachAvailability.getStartTimeStamp()) < 2000) {
+            if (Math.abs(newAvailability.getStartTimeStamp() - eachAvailability.getStartTimeStamp()) < 3600000) {
                 logger.info("Availability: Availability already exists for athlete");
                 return false;
             }
