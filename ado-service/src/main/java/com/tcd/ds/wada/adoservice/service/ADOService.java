@@ -39,6 +39,9 @@ public class ADOService {
 
         logger.info("Intercepted request to get List of athletes for ado: " + getAthleteListRequest.getAdoId());
         Optional<Ado> ado = adoRepository.findById(getAthleteListRequest.getAdoId());
+        if(!ado.isPresent()){
+            logger.info("ADO not found");
+        }
         Location location = ado.get().getLocation();
         List<Athlete> athleteList = athleteRepository.findByLocation(location);
         if(athleteList.isEmpty()){
@@ -135,7 +138,11 @@ public class ADOService {
 
         List<Availability> appointments = null;
         if(adoId != null){
-            Location location = adoRepository.findById(adoId).get().getLocation();
+            Optional<Ado> ado = adoRepository.findById(adoId);
+            if(!ado.isPresent()){
+                logger.error("");
+            }
+                    get().getLocation();
             appointments = availabilityRepository.findByAthleteLocationAndIsAppointment(location, true);
             //appointments = appointmentRepository.findByAthleteLocation(location);
         }
