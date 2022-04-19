@@ -9,6 +9,8 @@ import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Sharded;
 
+import java.io.Serializable;
+
 @Data
 @Document("Availability")
 @AllArgsConstructor
@@ -17,7 +19,10 @@ import org.springframework.data.mongodb.core.mapping.Sharded;
         @CompoundIndex(name = "region_id", def = "{'athlete.location.region' : 1, 'availabilityId': 1}")
 })
 @Sharded(shardKey = { "athlete.location.region", "availabilityId" })
-public class Availability {
+public class Availability implements Serializable {
+
+    private static final long serialVersionUID = 7156526077883281626L;
+
     @Id
     private String availabilityId;
     private Athlete athlete;
