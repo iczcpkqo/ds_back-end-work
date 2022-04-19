@@ -45,7 +45,6 @@ public class AthleteService {
         }
     }
 
-    @Cacheable("Athlete")
     public ResponseEntity<List<Athlete>> get() {
         logger.info("Athlete: Getting All Athletes");
         List<Athlete> athletes = repository.findAll();
