@@ -9,9 +9,6 @@ import com.tcd.ds.wada.adoservice.repository.AvailabilityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -34,8 +31,8 @@ public class ADOService {
     AthleteRepository athleteRepository;
 
     //Returns list of athletes in ado's location
-    @Cacheable(value="Athlete")
-    public List<Athlete> getListOfAthletes(GetAthleteListRequest getAthleteListRequest) {
+    //@Cacheable(value="Athlete")
+    public ResponseEntity<List<Athlete>> getListOfAthletes(GetAthleteListRequest getAthleteListRequest) {
 
         logger.info("Intercepted request to get List of athletes for ado: " + getAthleteListRequest.getAdoId());
         Optional<Ado> ado = adoRepository.findById(getAthleteListRequest.getAdoId());
@@ -45,10 +42,11 @@ public class ADOService {
             logger.info("No athletes registered under this ado");
             ResponseEntity.noContent().build();
         }
-        return athleteList;
+        return ResponseEntity.ok(athleteList);
 
     }
 
+    //@CachePut(value = "Availability", key = "#bookTestRequest.availabilityId")
     public ResponseEntity<?> bookTestForAthlete(BookTestRequest bookTestRequest) {
 
         logger.info("Intercepted request to book test for athlete with availability: " + bookTestRequest.getAvailabilityId());
@@ -128,8 +126,8 @@ public class ADOService {
 //            return ResponseEntity.ok().body("Appointment already exists for another athlete");
 //        }
 
-    @Cacheable(value = "Availability")
-    public List<Availability> getListOfAppointments(String adoId){
+    //@Cacheable(value = "Availability")
+    public ResponseEntity<List<Availability>> getListOfAppointments(String adoId){
 
         logger.info("Intercepted request to get list of appointments for ado: " + adoId);
 
@@ -139,10 +137,9 @@ public class ADOService {
             appointments = availabilityRepository.findByAthleteLocationAndIsAppointment(location, true);
             //appointments = appointmentRepository.findByAthleteLocation(location);
         }
-        return appointments;
+        return ResponseEntity.ok(appointments);
     }
 
-    @CacheEvict(value="Athlete", key="#athleteId")
     boolean deleteAvailabilityFromDB(String availabilityId) {
         Optional<Availability> availability = availabilityRepository.findById(availabilityId);
         if (availability.isPresent()) {

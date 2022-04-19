@@ -8,8 +8,6 @@ import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.CompoundIndexes;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-
 @Data
 @Document("Availability")
 @AllArgsConstructor
@@ -17,10 +15,7 @@ import java.io.Serializable;
 @CompoundIndexes({
         @CompoundIndex(name = "availability_region_id", def = "{'athlete.location.region' : 1, 'availabilityId': 1}")
 })
-public class Availability implements Serializable {
-
-    private static final long serialVersionUID = 7156526077883281626L;
-
+public class Availability {
     @Id
     private String availabilityId;
     private Athlete athlete;

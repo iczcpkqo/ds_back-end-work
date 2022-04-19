@@ -25,12 +25,12 @@ public class AvailabilityControllerImpl implements AvailabilityController {
 
     @Override
     public ResponseEntity<List<Availability>> get() {
-        return ResponseEntity.ok().body(service.get());
+        return service.get();
     }
 
     @Override
     public ResponseEntity<List<Availability>> getForAthlete(String athleteId) {
-        return ResponseEntity.ok().body(service.getForAthlete(athleteId));
+        return service.getForAthlete(athleteId);
     }
 
     @Override

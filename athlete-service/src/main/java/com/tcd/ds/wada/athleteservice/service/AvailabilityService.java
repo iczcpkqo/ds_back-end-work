@@ -9,7 +9,6 @@ import com.tcd.ds.wada.athleteservice.service.mapper.AvailabilityMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -40,27 +39,26 @@ public class AvailabilityService {
         }
     }
 
-    @Cacheable(value = "Availability")
-    public List<Availability> get() {
+    //@Cacheable(value = "Availability")
+    public ResponseEntity<List<Availability>> get() {
         logger.info("Availability: Getting All Availabilities");
         List<Availability> availabilityList = (List<Availability>) availabilityRepository.findAll();
         //List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
-        return availabilityList;
+        return ResponseEntity.ok(availabilityList);
     }
 
-    @Cacheable(value = "Availability")
-    public List<Availability> getForAthlete(String athleteId) {
+    public ResponseEntity<List<Availability>> getForAthlete(String athleteId) {
         logger.info("Availability: Getting all Availabilities for athlete id " + athleteId);
 
         Athlete athlete = athleteService.getAthleteFromDb(athleteId);
-        List<Availability> availabilityList = null;
         if (athlete != null) {
-            availabilityList = getAvailabilitiesOfAthlete(athlete);
-            //List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList)
+            List<Availability> availabilityList = getAvailabilitiesOfAthlete(athlete);
+            //List<AvailabilityResponse> responseList = new AvailabilityMapper().fromEntityListToResponseList(availabilityList);
+            return ResponseEntity.ok(availabilityList);
         } else {
             logger.info("Availability: Athlete not found");
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
-        return availabilityList;
     }
 
     // Add new record of availability for athlete
@@ -121,7 +119,6 @@ public class AvailabilityService {
     }
 
     // Delete existing future records of availability for athlete (if appointment is not set)
-    @CacheEvict(value = "Availability", key = "#availabilityId")
     public ResponseEntity<String> delete(String availabilityId) {
         logger.info("Availability: Delete for Athlete ... ");
 
@@ -147,7 +144,7 @@ public class AvailabilityService {
         return true;
     }
 
-    @Cacheable(value = "Availability", key = "#availabilityId")
+    //@Cacheable(value = "Availability", key = "#availabilityId")
     public Availability getAvailabilityFromDb(String availabilityId) {
         logger.info("Availability: Getting Availability Id (" + availabilityId + ") from DB");
 
@@ -162,12 +159,10 @@ public class AvailabilityService {
         }
     }
 
-    @Cacheable(value = "Availability")
     List<Availability> getAvailabilitiesOfAthlete(Athlete athlete) {
         return availabilityRepository.findByAthlete(athlete);
     }
 
-    @CachePut(value = "Availability", key = "#availability.availabilityId")
     String addNewAvailabilityToDB(Availability availability) {
         if (checkAvailabilityAdd(getAvailabilitiesOfAthlete(availability.getAthlete()), availability)) {
             Availability newAvailability = availabilityRepository.save(availability);
@@ -176,7 +171,6 @@ public class AvailabilityService {
         return null;
     }
 
-    @CacheEvict(value = "Availability", key = "#availabilityId")
     boolean deleteAvailabilityFromDB(String availabilityId) {
         Optional<Availability> availability = availabilityRepository.findById(availabilityId);
         if (availability.isPresent()) {
