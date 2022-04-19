@@ -27,7 +27,7 @@ def athletes_login():
     # resp = requests.request("POST", LOGIN_URL, json=_SERVICE_POST_LOGIN, headers=_HEADERS)
     # assert resp.status_code == 200
     # json_response_dict = resp.json()
-    _TOKEN = "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTbWFydCBDaXR5IE9yZyIsInN1YiI6IkFrdWwgUm9iZXJ0c29uIiwiZXhwIjoxNjUwMzMxNDIyLCJpYXQiOjE2NTAzMjc4MjJ9.91rVT16XfQT54n6HGDiD6XDaAiqAKDNA7__jFXjibYk"
+    _TOKEN = "Bearer " + "eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJTbWFydCBDaXR5IE9yZyIsInN1YiI6IkFrdWwiLCJleHAiOjE2NTAzOTIxOTIsImlhdCI6MTY1MDM4ODU5Mn0.ZwrvjV24S27i4NOuLd-gVeHBZttgZ0DzZuKPvYbZhz0"
     # _ID = json_response_dict['id']
     _current_headers = {'content-type': 'application/json',"Authorization": _TOKEN}
 

@@ -12,6 +12,9 @@ from locust import HttpUser, task, User, between, SequentialTaskSet, TaskSet
 from locust.env import Environment
 import time;
 import new
+from faker import Faker
+import requests
+import json
 
 class user(SequentialTaskSet):
     _BASE_URL = 'http://52.190.2.8'
@@ -30,6 +33,10 @@ class user(SequentialTaskSet):
     _TOKEN = ''
     _ID = ''
     _current_headers = ''
+    
+    xBASE = "http://52.190.2.8:8080"
+    xGET_LOCATIONS = xBASE + "/location"
+    xREGISTER_USER = xBASE + "/user/register"
 
     def on_start(self):
         # self.athletes_login()
@@ -39,6 +46,8 @@ class user(SequentialTaskSet):
         
         self.locations = new._LOCATIONS
         self._current_headers = new._HEADERS
+        
+        self.fake = Faker()
         return super().on_start()
 
     def get_new_availability(self):
@@ -73,9 +82,33 @@ class user(SequentialTaskSet):
     #     resp = self.client.get(self._GET_LOCATIONS,headers= self._current_headers)
     #     print("get locations : success !\r\n")
 
-    #     return
+    #    return
+    def register_athlete(self, user_object):
+        user_object["isAthlete"] = True
+        headers = {
+            'Content-Type': 'application/json'
+        }
+        payload = json.dumps(user_object)
+        #print(payload)
+        response = self.client.post(self.xREGISTER_USER, headers=headers, data=payload)
+        return response
 
     @locust.task
+    def add_athlete(self):
+        user_obj = {}
+        fake_name = self.fake.name()
+        user_obj['name'] = fake_name
+        user_obj['password'] = fake_name
+        user_obj['email'] = f'{fake_name.replace(" ", "").lower()}{random.randint(1, 1500)}@wada.com'
+        user_obj['location'] = new.get_random_from_list(self.locations)
+    
+        response = self.register_athlete(user_obj)
+        if (response.status_code == 200):
+            pass
+        else:
+            print(f'{i} | {response.status_code}: {response.text}')
+
+    """ @locust.task
     def post_add_athlete_availability(self):
         body = self.get_new_availability()
         resp = self.client.post(self._POST_ADD_AVAILABILITY + self.athlete["athleteId"],headers=self._current_headers,json=body)
@@ -110,7 +143,7 @@ class user(SequentialTaskSet):
     #     assert resp.status_code == 200
     #     print("get athlete availability : success !\r\n")
     #     return
-
+    
     @locust.task
     def post_delete_availability_athletes(self):
         resp = self.client.delete(self._DELETE_AVAILABILITY+self.availabilityId,headers=self._current_headers)
@@ -118,13 +151,13 @@ class user(SequentialTaskSet):
         print(f'Delete availability : success ! id:{self.availabilityId}\r\n')
         return
 
-    # @locust.task
-    # def post_appointments(self):
-    #     body = {"adoId":"625d977125ae313cadf7fae9"}
-    #     resp = self.client.post(self._POST_ALL_APPOINTMENTS,headers= self._current_headers,json=body)
-    #     assert resp.status_code == 200
-    #     print("get all appointments : success !\r\n")
-    #     return
+    @locust.task
+    def post_appointments(self):
+        body = {"adoId":"625d977125ae313cadf7fae9"}
+        resp = self.client.post(self._POST_ALL_APPOINTMENTS,headers= self._current_headers,json=body)
+        assert resp.status_code == 200
+        print("get all appointments : success !\r\n")
+        return """
 
 
 class UserInstance(HttpUser):
