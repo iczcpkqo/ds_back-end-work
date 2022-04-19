@@ -1,4 +1,6 @@
-sh.shardCollection("wada.Athlete", {location.region: 1,athleteId: 1});
+docker exec -it azureuser-mongos-1 mongo --authenticationDatabase admin --username root --password 123456
+docker exec -it azureuser-mongodb-shard1-primary-1 mongo --authenticationDatabase admin --username root --password 123456
+sh.shardCollection("wada.Athlete", {location.region: 1,athleteId: 1})
 {"location.region" : 1, "athleteId": 1}
 
 sh.shardCollection("wada.Availability", {'athlete.location.region' : 1, 'availabilityId': 1});
@@ -15,6 +17,13 @@ sh.addTagRange(
 	"wada.Availability", 
 	{ "athlete.location.region" : "Europe", "availabilityId" : MinKey},
 	{ "athlete.location.region" : "Europe", "availabilityId" : MaxKey}, 
+	"Europe" 
+)
+
+sh.addTagRange( 
+	"wada.Ado", 
+	{ "location.region" : "Europe", "adoId" : MinKey},
+	{ "location.region" : "Europe", "adoId" : MaxKey}, 
 	"Europe" 
 )
 
@@ -40,6 +49,13 @@ sh.addTagRange(
 )
 
 sh.addTagRange( 
+	"wada.Ado", 
+	{ "location.region" : "America", "adoId" : MinKey},
+	{ "location.region" : "America", "adoId" : MaxKey}, 
+	"America" 
+)
+
+sh.addTagRange( 
 	"wada.Athlete", 
 	{ "location.region" : "Asia", "athleteId" : MinKey},
 	{ "location.region" : "Asia", "athleteId" : MaxKey}, 
@@ -51,20 +67,28 @@ sh.addTagRange(
 	{ "athlete.location.region" : "Asia", "availabilityId" : MinKey},
 	{ "athlete.location.region" : "Asia", "availabilityId" : MaxKey}, 
 	"Asia" 
-)
+);
 
+sh.addTagRange( 
+	"wada.Ado", 
+	{ "location.region" : "Asia", "adoId" : MinKey},
+	{ "location.region" : "Asia", "adoId" : MaxKey}, 
+	"Asia" 
+);
 sh.enableBalancing("wada.Athlete")
 sh.enableBalancing("wada.Availability")
+sh.enableBalancing("wada.Ado")
 db.adminCommand({
   reshardCollection: "wada.Athlete",
   key: {"location.region": 1, "athleteId": 1}
 })
 
 db.adminCommand({
-  reshardCollection: "wada.Availability",
-  key: {"athlete.location.region": 1,"availabilityId": 1}
-})
+  reshardCollection: "wada.Ado",
+  key: {"location.region": 1,"adoId": 1}
+});
 
- {  "_id" : "shard0",  "host" : "shard0/mongodb-shard0-primary:27017,mongodb-shard0-secondary-1:27017,mongodb-shard0-secondary-2:27017",  "state" : 1,  "topologyTime" : Timestamp(1649802058, 1) }
-        {  "_id" : "shard1",  "host" : "shard1/mongodb-shard1-primary:27017,mongodb-shard1-secondary-1:27017,mongodb-shard1-secondary-2:27017",  "state" : 1,  "topologyTime" : Timestamp(1649802053, 5) }
-        {  "_id" : "shard2",  "host" : "shard2/mongodb-shard2-primary:27017,mongodb-shard2-secondary-1:27017,mongodb-shard2-secondary-2:27017",  "state" : 1,  "topologyTime" : Timestamp(1649802058, 6) }
+db.adminCommand({
+  reshardCollection: "wada.User",
+  key: {"location.region": 1,"userEmail": 1}
+});

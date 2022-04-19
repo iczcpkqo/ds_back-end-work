@@ -45,21 +45,21 @@ public class AthleteService {
         }
     }
 
-    //@Cacheable(value="Athlete")
+    @Cacheable("Athlete")
     public ResponseEntity<List<Athlete>> get() {
         logger.info("Athlete: Getting All Athletes");
         List<Athlete> athletes = repository.findAll();
         return ResponseEntity.ok(athletes);
     }
 
-    //@CacheEvict(value="Athlete", key="#athleteId")
+    @CacheEvict(value="Athlete", key="#athleteId")
     public ResponseEntity<String> delete(String athleteId) {
         logger.info("Athlete: Deleting athlete");
         repository.deleteById(athleteId);
         return ResponseEntity.ok().body("");
     }
 
-    //@Cacheable(value="Athlete", key="#athleteId")
+    @Cacheable(value="Athlete", key="#athleteId")
     public Athlete getAthleteFromDb(String athleteId) {
         logger.info("Athlete: Getting Athlete Id (" + athleteId + ") from DB");
 

@@ -18,14 +18,12 @@ public class AdoControllerImpl implements AdoController {
     @Autowired
     ADOService ADOService;
 
-    //@Cacheable
     public ResponseEntity<List<Athlete>> getListOfAthletes(GetAthleteListRequest getAthleteListRequest){
-        return ADOService.getListOfAthletes(getAthleteListRequest);
+        return ResponseEntity.ok().body(ADOService.getListOfAthletes(getAthleteListRequest));
     }
 
-    //@Cacheable
     public ResponseEntity<List<Availability>> getAllAppointments(GetAppointmentsRequest getAppointmentsRequest) {
-        return ADOService.getListOfAppointments(getAppointmentsRequest.getAdoId());
+        return ResponseEntity.ok().body(ADOService.getListOfAppointments(getAppointmentsRequest.getAdoId()));
     }
 
     public ResponseEntity<?> bookTestForAthlete(BookTestRequest bookTestRequest){
