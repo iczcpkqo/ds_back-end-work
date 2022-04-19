@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.client.WebClient;
         org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
 })
 
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin(origins = { "http://localhost:4200", "http://localhost:3000"})
 public class ApiGatewayApplication {
 	@Bean
 	@LoadBalanced
