@@ -55,6 +55,10 @@ spring.cloud.gateway.routes:
     - Path=/athlete/**, /availability/**
   filters:
     - AuthenticationGatewayFilter
+    - name: CircuitBreaker
+      args:
+        name: customCircuitBreaker
+        fallbackUri: forward:/fallback
 
 spring:
   cloud:
