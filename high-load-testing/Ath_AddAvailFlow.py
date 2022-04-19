@@ -32,7 +32,7 @@ class user(SequentialTaskSet):
     _current_headers = ''
 
     def on_start(self):
-        self.athletes_login()
+        # self.athletes_login()
         
         all_athletes = new._ATHLETES
         self.athlete = new.get_random_from_list(all_athletes)
