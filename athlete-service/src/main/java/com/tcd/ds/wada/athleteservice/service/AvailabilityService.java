@@ -137,8 +137,8 @@ public class AvailabilityService {
             logger.info("Availability: Deleted");
             return ResponseEntity.ok().body("Deleted");
         } else {
-            logger.info("Availability: Not found");
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability not found");
+            logger.info("Availability: Deletion not possible");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Availability deletion not possible");
         }
     }
 
@@ -185,6 +185,11 @@ public class AvailabilityService {
     boolean deleteAvailabilityFromDB(String availabilityId) {
         Optional<Availability> availability = availabilityRepository.findById(availabilityId);
         if (availability.isPresent()) {
+
+            Availability currentAvailability = availability.get();
+            if (currentAvailability.getStartTimeStamp() - System.currentTimeMillis() < 172800000)
+                return false;
+
             availabilityRepository.delete(availability.get());
             return true;
         } else
