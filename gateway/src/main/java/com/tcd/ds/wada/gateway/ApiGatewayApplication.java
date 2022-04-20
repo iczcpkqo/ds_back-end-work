@@ -10,11 +10,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 @SpringBootApplication(exclude = {
         org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration.class
 })
-<<<<<<< HEAD
 
 @CrossOrigin(origins = { "http://localhost:4200", "http://localhost:3000"})
-=======
->>>>>>> 10edd3d2e5a0dc20368681a7a1768c8c86870c71
 public class ApiGatewayApplication {
 	@Bean
 	@LoadBalanced
